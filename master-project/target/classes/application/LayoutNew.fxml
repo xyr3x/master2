@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.LayoutController">
+   <children>
+      <ScrollPane fx:id="scrollPane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <content>
+            <Pane fx:id="drawPane" prefHeight="200.0" prefWidth="200.0" />
+         </content></ScrollPane>
+      <HBox layoutX="10.0" layoutY="575.0" prefHeight="60.0" spacing="50.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+         <children>
+            <VBox spacing="10.0">
+               <children>
+                  <HBox layoutY="578.0" prefHeight="60.0" prefWidth="601.0" spacing="40.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="578.0">
+                     <children>
+                        <Label layoutY="578.0" text="Crew Number" />
+                        <Label fx:id="CrewLabel" layoutX="38.0" layoutY="578.0" />
+                        <Label layoutX="78.0" layoutY="578.0" text="Fitness" />
+                        <Label fx:id="FitnessLabel" layoutX="117.0" layoutY="578.0" />
+                        <Label layoutX="158.0" layoutY="578.0" text="Generation" />
+                        <Label fx:id="GenerationLabel" layoutX="203.0" layoutY="578.0" />
+                        <Label text="Timestep" />
+                        <Label fx:id="TimeStepLabel" />
+                     </children>
+                     <padding>
+                        <Insets top="5.0" />
+                     </padding>
+                  </HBox>
+                  <HBox spacing="35.0">
+                     <children>
+                        <Label text="Settings: " />
+                        <ChoiceBox fx:id="GridBox" prefWidth="150.0" />
+                        <ChoiceBox fx:id="CrewBox" prefWidth="150.0" />
+                        <ChoiceBox fx:id="StrategyBox" prefWidth="150.0" />
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox spacing="5.0">
+               <children>
+                  <Button fx:id="StartButton" layoutX="254.0" layoutY="574.0" mnemonicParsing="false" onAction="#handleButtonAnimate" prefHeight="25.0" prefWidth="67.0" text="Animate" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="15.0">
+                     <HBox.margin>
+                        <Insets left="70.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#handleButtonCalculate" prefWidth="67.0" text="Calculate" />
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
