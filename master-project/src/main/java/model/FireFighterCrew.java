@@ -127,7 +127,6 @@ public class FireFighterCrew implements Comparable<FireFighterCrew> {
 		this.maxNonBurningVertices = maxNonBurningVertices;
 	}
 
-	@Override
 	public int compareTo(FireFighterCrew arg0) {
 		if(Fitness < arg0.getFitness()){
 			return 1;

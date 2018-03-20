@@ -2,10 +2,13 @@ package application;
 	
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.prefs.Preferences;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import controller.DrawingToolGreedy;
@@ -14,9 +17,13 @@ import controller.EvolutionaryAlgoConnected;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
+import model.ConnectedCrewWrapper;
+import model.ConnectedFireFighterCrew;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 
 public class Main extends Application {
@@ -36,7 +43,7 @@ public class Main extends Application {
 	EvolutionaryAlgo evAlgo = new EvolutionaryAlgo();
 	EvolutionaryAlgoConnected evAlgoConnected = new EvolutionaryAlgoConnected();
 	
-	
+	private List<ConnectedFireFighterCrew> connectedCrewData = new ArrayList<ConnectedFireFighterCrew>();
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -68,6 +75,9 @@ public class Main extends Application {
 			primaryStage.setScene(scene);
 
 			// Give the controller access to the main app.
+	        RootLayoutController controller = loader.getController();
+	        controller.setMain(this);
+
 
 			primaryStage.show();
 		} catch (IOException e) {
@@ -99,8 +109,8 @@ public class Main extends Application {
 	}
 	
 	/*private void startAlgo(){		
-		//evolutionaryAlgo ausführen
-		//dafür service aufrufen
+		//evolutionaryAlgo ausfï¿½hren
+		//dafï¿½r service aufrufen
 		EvolutionaryAlgoService service = new EvolutionaryAlgoService();
 		service.setEvAlgo(evAlgo);
 		service.setMain(this);
@@ -155,20 +165,20 @@ public class Main extends Application {
 	 * 
 	 * @param file
 	 */
-	public void loadPersonDataFromFile(File file) {
+	public void loadCrewDataFromFile(File file) {
 	    try {
 	        JAXBContext context = JAXBContext
-	                .newInstance(PersonListWrapper.class);
+	                .newInstance(ConnectedCrewWrapper.class);
 	        Unmarshaller um = context.createUnmarshaller();
 
 	        // Reading XML from the file and unmarshalling.
-	        PersonListWrapper wrapper = (PersonListWrapper) um.unmarshal(file);
+	        ConnectedCrewWrapper wrapper = (ConnectedCrewWrapper) um.unmarshal(file);
 
-	        personData.clear();
-	        personData.addAll(wrapper.getPersons());
+	        connectedCrewData.clear();
+	        connectedCrewData.addAll(wrapper.getCrews());
 
 	        // Save the file path to the registry.
-	        setPersonFilePath(file);
+	        setCrewFilePath(file);
 
 	    } catch (Exception e) { // catches ANY exception
 	        Alert alert = new Alert(AlertType.ERROR);
@@ -185,22 +195,22 @@ public class Main extends Application {
 	 * 
 	 * @param file
 	 */
-	public void savePersonDataToFile(File file) {
+	public void saveCrewDataToFile(File file) {
 	    try {
 	        JAXBContext context = JAXBContext
-	                .newInstance(PersonListWrapper.class);
+	                .newInstance(ConnectedCrewWrapper.class);
 	        Marshaller m = context.createMarshaller();
 	        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
 	        // Wrapping our person data.
-	        PersonListWrapper wrapper = new PersonListWrapper();
-	        wrapper.setPersons(personData);
+	        ConnectedCrewWrapper wrapper = new ConnectedCrewWrapper();
+	        wrapper.setCrews(connectedCrewData);
 
 	        // Marshalling and saving XML to the file.
 	        m.marshal(wrapper, file);
 
 	        // Save the file path to the registry.
-	        setPersonFilePath(file);
+	        setCrewFilePath(file);
 	    } catch (Exception e) { // catches ANY exception
 	        Alert alert = new Alert(AlertType.ERROR);
 	        alert.setTitle("Error");
@@ -215,4 +225,15 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+	
+	//getter and setter
+	public List<ConnectedFireFighterCrew> getConnectedCrewData() {
+		return connectedCrewData;
+		
+	}
+	
+	public Stage getPrimaryStage() {
+		return primaryStage;
+	}
+		
 }

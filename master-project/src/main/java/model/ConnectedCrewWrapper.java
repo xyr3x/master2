@@ -5,16 +5,16 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 
-@XMLRootElement(name = "connectedCrews")
+@XmlRootElement(name = "connectedCrews")
 public class ConnectedCrewWrapper {
-	private List<ConnectedFireFighter> crew;
+	private List<ConnectedFireFighterCrew> crew;
 	
-	@XmlElement(name = "fighter")
-	public List<ConnectedFireFighter> getCrew(){
+	@XmlElement(name = "crew")
+	public List<ConnectedFireFighterCrew> getCrews(){
 		return crew;
 	}
 	
-	public void setPoints(List <OneDimPoint> crew) {
+	public void setCrews(List <ConnectedFireFighterCrew> crew) {
 		this.crew = crew;
 	}
 }

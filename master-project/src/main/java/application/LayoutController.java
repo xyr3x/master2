@@ -80,7 +80,6 @@ public class LayoutController {
 		CrewBox.setItems(FXCollections.observableArrayList("Random Fighter", "Connected Fighter"));
 		CrewBox.getSelectionModel().selectFirst();
 		CrewBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
-			@Override
 			public void changed(ObservableValue<? extends Number> ov, Number value, Number new_value) {
 				// TODO Auto-generated method stub
 				crewBoxIndex = new_value.intValue();
@@ -90,8 +89,8 @@ public class LayoutController {
 	}
 
 	private void startAlgo() {
-		// evolutionaryAlgo ausführen
-		// dafür service aufrufen
+		// evolutionaryAlgo ausfï¿½hren
+		// dafï¿½r service aufrufen
 		EvolutionaryAlgoService service = new EvolutionaryAlgoService();
 		service.setEvAlgo(evAlgo);
 		service.setMain(main);
@@ -100,8 +99,8 @@ public class LayoutController {
 	}
 
 	private void startAlgoConnected() {
-		// evolutionaryAlgo ausführen
-		// dafür service aufrufen
+		// evolutionaryAlgo ausfï¿½hren
+		// dafï¿½r service aufrufen
 		EvolutionaryAlgoConnectedService service = new EvolutionaryAlgoConnectedService();
 		service.setEvAlgo(evAlgoConnected);
 		service.setMain(main);
@@ -178,8 +177,8 @@ public class LayoutController {
 
 	}
 
-	private void drawConnected(ConnectedFireFighterCrew crew) {
-		LongValue prevNanos = new LongValue(System.nanoTime());
+	private void drawConnected(final ConnectedFireFighterCrew crew) {
+		final LongValue prevNanos = new LongValue(System.nanoTime());
 
 		drawLoop = new AnimationTimer() {
 
@@ -247,8 +246,8 @@ public class LayoutController {
 
 	}
 
-	private void draw(FireFighterCrew crew) {
-		LongValue prevNanos = new LongValue(System.nanoTime());
+	private void draw(final FireFighterCrew crew) {
+		final LongValue prevNanos = new LongValue(System.nanoTime());
 
 		drawLoop = new AnimationTimer() {
 

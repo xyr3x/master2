@@ -2,14 +2,14 @@
  * 	Masterthesis
  *
  *
- * Ablauf Evolutionärer Algorithmus
- *	1. Initialisierung: Die erste Generation von Lösungskandidaten wird (meist zufällig) erzeugt.
- *	2. Evaluation: Jedem Lösungskandidaten der Generation wird entsprechend seiner Güte ein Wert der Fitnessfunktion zugewiesen.
- *	3. Durchlaufe die folgenden Schritte, bis ein Abbruchkriterium erfüllt ist:
- *		3.1. Selektion: Auswahl von Individuen für die Rekombination
- *		3.2. Rekombination: Kombination der ausgewählten Individuen
- *		3.3. Mutation: Zufällige Veränderung der Nachfahren
- *		3.4. Evaluation: Jedem Lösungskandidaten der Generation wird entsprechend seiner Güte ein Wert der Fitnessfunktion zugewiesen.
+ * Ablauf Evolutionï¿½rer Algorithmus
+ *	1. Initialisierung: Die erste Generation von Lï¿½sungskandidaten wird (meist zufï¿½llig) erzeugt.
+ *	2. Evaluation: Jedem Lï¿½sungskandidaten der Generation wird entsprechend seiner Gï¿½te ein Wert der Fitnessfunktion zugewiesen.
+ *	3. Durchlaufe die folgenden Schritte, bis ein Abbruchkriterium erfï¿½llt ist:
+ *		3.1. Selektion: Auswahl von Individuen fï¿½r die Rekombination
+ *		3.2. Rekombination: Kombination der ausgewï¿½hlten Individuen
+ *		3.3. Mutation: Zufï¿½llige Verï¿½nderung der Nachfahren
+ *		3.4. Evaluation: Jedem Lï¿½sungskandidaten der Generation wird entsprechend seiner Gï¿½te ein Wert der Fitnessfunktion zugewiesen.
  *		3.5. Selektion: Bestimmung einer neuen Generation
  *
  *
@@ -210,11 +210,11 @@ public class EvolutionaryAlgo {
 
 	public void calculateFitness(FireFighterCrew crew) {
 		// vertices that do not burn
-		List<Integer> nonBurningVertices = new ArrayList<>();
+		List<Integer> nonBurningVertices = new ArrayList<Integer>();
 		// Vertices of the last timestep
-		List<Integer> latestVertices = new ArrayList<>();
+		List<Integer> latestVertices = new ArrayList<Integer>();
 		// defended vertices
-		SortedSet<Integer> defendedVertices = new TreeSet<>();
+		SortedSet<Integer> defendedVertices = new TreeSet<Integer>();
 		int tempFitness = crew.getFitness();
 
 		// move fighters (switch case unterscheidung), expand fire
@@ -228,7 +228,7 @@ public class EvolutionaryAlgo {
 				currentVertice = crew.getCrew().get(j).getCurrentVertice();
 				tempDirection = crew.getCrew().get(j).getChainIndex(i);
 
-				// Randfälle, bleibe stehenn wenn Grid zu Ende//Rand rausnehmen
+				// Randfï¿½lle, bleibe stehenn wenn Grid zu Ende//Rand rausnehmen
 				// Ecken: 0; GridLength; GridLength^2 - (GridLength);
 				// GridLength^2 - 1
 				if (currentVertice == 0 + Main.GridLength + 1) {
@@ -464,7 +464,7 @@ public class EvolutionaryAlgo {
 	 * crew.getCrew().get(j).getCurrentVertice(); tempDirection =
 	 * crew.getCrew().get(j).getChainIndex(i);
 	 * 
-	 * // Randfälle, bleibe stehenn wenn Grid zu Ende//Rand rausnehmen // Ecken: 0;
+	 * // Randfï¿½lle, bleibe stehenn wenn Grid zu Ende//Rand rausnehmen // Ecken: 0;
 	 * GridLength; GridLength^2 - (GridLength); // GridLength^2 - 1 if
 	 * (currentVertice == 0 + Main.GridLength + 1) { if (tempDirection == 3 ||
 	 * tempDirection == 4) { fighterAtBorder = true; continue fighterloop; } }
@@ -539,7 +539,7 @@ public class EvolutionaryAlgo {
 	 * for (int k = 0; k < latestVertices.size(); k++) { //
 	 * listPrinter(nonBurningVertices);
 	 * 
-	 * // Randfälle! verlassener Knoten liegt am Rand/Ecke if
+	 * // Randfï¿½lle! verlassener Knoten liegt am Rand/Ecke if
 	 * (latestVertices.get(k).intValue() == 0) { // only check upper and right
 	 * vertice if (!nonBurningVertices.contains((latestVertices.get(k).intValue() +
 	 * 1))) { if (!defendedVertices.contains((latestVertices.get(k).intValue() +

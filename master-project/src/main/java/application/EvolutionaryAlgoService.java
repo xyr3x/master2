@@ -54,11 +54,10 @@ public class EvolutionaryAlgoService extends Service<FireFighterCrew>{
 	}
 	
 	
-	private void updateUI(FireFighterCrew bestCrew) {
+	private void updateUI(final FireFighterCrew bestCrew) {
 		//TODO: beste crew updaten
 		Platform.runLater(new Runnable() {
 
-			@Override
 			public void run() {
 				// TODO Auto-generated method stub
 				controller.setBestCrew(bestCrew);

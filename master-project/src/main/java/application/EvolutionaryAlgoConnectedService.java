@@ -47,11 +47,10 @@ public class EvolutionaryAlgoConnectedService extends Service<ConnectedFireFight
 	}
 	
 	
-	private void updateUI(ConnectedFireFighterCrew bestCrew) {
+	private void updateUI(final ConnectedFireFighterCrew bestCrew) {
 		//TODO: beste crew updaten
 		Platform.runLater(new Runnable() {
 
-			@Override
 			public void run() {
 				// TODO Auto-generated method stub
 				controller.setBestCrewConnected(bestCrew);

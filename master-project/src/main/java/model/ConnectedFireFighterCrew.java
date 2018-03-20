@@ -159,7 +159,6 @@ public class ConnectedFireFighterCrew implements Comparable<ConnectedFireFighter
 		}
 	}
 
-	@Override
 	public int compareTo(ConnectedFireFighterCrew arg0) {
 		if (Fitness < arg0.getFitness()) {
 			return 1;

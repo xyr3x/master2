@@ -58,7 +58,7 @@ public class EvolutionaryAlgoConnected {
 				population.remove(Main.PopulationSize - (i + 1));
 			}
 
-			// 3.2. Rekombination //TODO: WICHTIG!! Überarbeiten
+			// 3.2. Rekombination //TODO: WICHTIG!! ï¿½berarbeiten
 			for (int i = 0; i < Main.RecombinationSize; i++) {
 				int parent1 = Main.rnd.nextInt(Main.PopulationSize - Main.RecombinationSize);
 				int parent2 = Main.rnd.nextInt(Main.PopulationSize - Main.RecombinationSize);
@@ -199,7 +199,7 @@ public class EvolutionaryAlgoConnected {
 				tempFighter.setLeftNeighbour(crew.getCrew().get(j - 1));
 
 				// get Startvertice
-				// TODO DAUERSCHLEIFE MÖGLICH ---- FIXEN!!!
+				// TODO DAUERSCHLEIFE Mï¿½GLICH ---- FIXEN!!!
 				int counter = 0;
 
 				Innerloop: while (!finished && counter < 8) {
@@ -389,9 +389,9 @@ public class EvolutionaryAlgoConnected {
 
 					dummy = movementCalculator(tempFighter, k);
 					//System.out.println(dummy);
-					// Fehler, Movement nicht möglich
+					// Fehler, Movement nicht mï¿½glich
 					if (dummy == -1) {
-						// Movement des Vorgängers neu berechnen
+						// Movement des Vorgï¿½ngers neu berechnen
 						startVertices[j] = 0;
 						j -= 1;
 						continue OuterLoop;
@@ -417,7 +417,7 @@ public class EvolutionaryAlgoConnected {
 	// calculate fitness -- possible to move fighters at one point
 	public void calculateFitness(ConnectedFireFighterCrew crew) {
 		// vertices that do not burn
-		Set<Integer> nonBurningVertices = new LinkedHashSet<>();
+		Set<Integer> nonBurningVertices = new LinkedHashSet<Integer>();
 		// defended vertices
 		List<Integer> defendedVertices = new ArrayList<Integer>();
 		int tempFitness = crew.getFitness();
@@ -433,7 +433,7 @@ public class EvolutionaryAlgoConnected {
 				currentVertice = crew.getCrew().get(j).getCurrentVertice();
 				tempDirection = crew.getCrew().get(j).getChainIndex(i);
 
-				// Randfälle, bleibe stehenn wenn Grid zu Ende//Rand rausnehmen
+				// Randfï¿½lle, bleibe stehenn wenn Grid zu Ende//Rand rausnehmen
 				// Ecken: 0; GridLength; GridLength^2 - (GridLength);
 				// GridLength^2 - 1
 				if (currentVertice == 0 + Main.GridLength + 1) {
@@ -466,7 +466,7 @@ public class EvolutionaryAlgoConnected {
 						defendedVertices.clear();
 
 						// update non burning vertices
-						List<Integer> shiftList = new ArrayList<>();
+						List<Integer> shiftList = new ArrayList<Integer>();
 						for (Integer k : nonBurningVertices) {
 							// x positive
 							shiftList.add(k.intValue() + (Main.GridLength / 2));
@@ -517,7 +517,7 @@ public class EvolutionaryAlgoConnected {
 						defendedVertices.clear();
 
 						// update non burning vertices
-						List<Integer> shiftList = new ArrayList<>();
+						List<Integer> shiftList = new ArrayList<Integer>();
 						for (Integer k : nonBurningVertices) {
 							// x negative
 							shiftList.add(k.intValue() - (Main.GridLength / 2));
@@ -568,7 +568,7 @@ public class EvolutionaryAlgoConnected {
 						defendedVertices.clear();
 
 						// update non burning vertices
-						List<Integer> shiftList = new ArrayList<>();
+						List<Integer> shiftList = new ArrayList<Integer>();
 						for (Integer k : nonBurningVertices) {
 							// x positive
 							shiftList.add(k.intValue() + (Main.GridLength / 2));
@@ -620,7 +620,7 @@ public class EvolutionaryAlgoConnected {
 						defendedVertices.clear();
 
 						// update non burning vertices
-						List<Integer> shiftList = new ArrayList<>();
+						List<Integer> shiftList = new ArrayList<Integer>();
 						for (Integer k : nonBurningVertices) {
 							// x negative
 							shiftList.add(k.intValue() - (Main.GridLength / 2));
@@ -673,7 +673,7 @@ public class EvolutionaryAlgoConnected {
 						defendedVertices.clear();
 
 						// update non burning vertices
-						List<Integer> shiftList = new ArrayList<>();
+						List<Integer> shiftList = new ArrayList<Integer>();
 						for (Integer k : nonBurningVertices) {
 							// y positive
 							shiftList.add(k.intValue() + (Main.GridLength * (Main.GridLength / 2)));
@@ -722,7 +722,7 @@ public class EvolutionaryAlgoConnected {
 						defendedVertices.clear();
 
 						// update non burning vertices
-						List<Integer> shiftList = new ArrayList<>();
+						List<Integer> shiftList = new ArrayList<Integer>();
 						for (Integer k : nonBurningVertices) {
 							// y negative
 							shiftList.add(k.intValue() - (Main.GridLength * (Main.GridLength / 2)));
@@ -792,7 +792,7 @@ public class EvolutionaryAlgoConnected {
 						defendedVertices.clear();
 
 						// update non burning vertices
-						List<Integer> shiftList = new ArrayList<>();
+						List<Integer> shiftList = new ArrayList<Integer>();
 						for (Integer k : nonBurningVertices) {
 							// x positive
 							shiftList.add(k.intValue() + (Main.GridLength / 2));
@@ -842,7 +842,7 @@ public class EvolutionaryAlgoConnected {
 						defendedVertices.clear();
 
 						// update non burning vertices
-						List<Integer> shiftList = new ArrayList<>();
+						List<Integer> shiftList = new ArrayList<Integer>();
 						for (Integer k : nonBurningVertices) {
 							// x negative
 							shiftList.add(k.intValue() - (Main.GridLength / 2));
@@ -932,7 +932,7 @@ public class EvolutionaryAlgoConnected {
 
 			// all non-burning vertices
 			// save vertices to remove in List, to avoid exception
-			List<Integer> removeList = new ArrayList<>();
+			List<Integer> removeList = new ArrayList<Integer>();
 			for (Integer k : nonBurningVertices) {
 				if (!defendedVertices.contains((Integer) k.intValue())) {
 					if (!nonBurningVertices.contains((Integer) (k.intValue() - 1))) {
@@ -2035,7 +2035,7 @@ public class EvolutionaryAlgoConnected {
 					return movement2;
 				}
 			}
-			// fighter übereinander
+			// fighter ï¿½bereinander
 		case 9:
 			switch (movement1) {
 			// no movement fighter 1
@@ -2168,7 +2168,7 @@ public class EvolutionaryAlgoConnected {
 
 			break;
 		}
-		// nicht erreichbar, da überall return statements		
+		// nicht erreichbar, da ï¿½berall return statements		
 		return -1;
 
 	}
