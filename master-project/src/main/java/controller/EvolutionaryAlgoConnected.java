@@ -23,24 +23,58 @@ public class EvolutionaryAlgoConnected {
 	private ConnectedFireFighterCrew bestCrew = new ConnectedFireFighterCrew();
 	private int[] bestSetUp = new int[Main.CrewSize];
 
+	Main main;
+
 	// constructor
 	public EvolutionaryAlgoConnected() {
 
+	}
+
+	public void setMain(Main main) {
+		this.main = main;
 	}
 
 	public ConnectedFireFighterCrew evAlgo() {
 		System.out.println("Start");
 		// stuff
 		int counter = 0;
+		population.clear();
 
-		// 1. Initialisierung
-		initialize();
-		System.out.println("Init finished");
+		// check main for data
+		if (main.getConnectedCrewData().size() == Main.CrewSize) {
+			for (ConnectedFireFighterCrew k : main.getConnectedCrewData()) {
+				population.add(k);
+			}
+		}
+		// DIamond Strategy
+		else if (Main.strategyBoxIndex == 1) {
+			// 1. Initialisierung
+			initialize();
+			for (int k = 0; k < 5; k++) {
+				//remove some elements
+				population.remove(Main.PopulationSize - (k + 1));
+				
+			}
+			for(int k = 0; k < 5; k++) {
+				//construct dia crews
+				ConnectedDiaCrew diaCrew = new ConnectedDiaCrew();
+				diaCrew.initialize();
+				population.add(diaCrew);
+			}
+			
+		}
+
+		else {
+			// 1. Initialisierung
+			initialize();
+			System.out.println("Init finished");
+		}
+
 		// 2. Evaluation
 		for (int i = 0; i < population.size(); i++) {
 			calculateFitness(population.get(i));
 			if (population.get(i).getFitness() > maxFitness) {
-				//maxFitness = population.get(i).getFitness();
+				// maxFitness = population.get(i).getFitness();
 				maxFitness = population.get(i).getMaxNonBurningVertices();
 			}
 		}
@@ -127,14 +161,16 @@ public class EvolutionaryAlgoConnected {
 					int crewNumber = Main.rnd.nextInt(Main.PopulationSize);
 					int timestep = Main.rnd.nextInt(Main.TimeInterval);
 					population.get(crewNumber).getCrew().get(0).setChainIndex(timestep, Main.rnd.nextInt(5));
-					population.get(crewNumber).getCrew().get(0).setCurrentVertice(population.get(crewNumber).getCrew().get(0).getStartVertice());
+					population.get(crewNumber).getCrew().get(0)
+							.setCurrentVertice(population.get(crewNumber).getCrew().get(0).getStartVertice());
 
 					for (int j = 1; j < Main.CrewSize; j++) {
 						for (int k = timestep; k < Main.TimeInterval; k++) {
 							population.get(crewNumber).getCrew().get(j).setChainIndex(k,
 									movementCalculator(population.get(crewNumber).getCrew().get(j), k));
 						}
-						population.get(crewNumber).getCrew().get(j).setCurrentVertice(population.get(crewNumber).getCrew().get(j).getStartVertice());
+						population.get(crewNumber).getCrew().get(j)
+								.setCurrentVertice(population.get(crewNumber).getCrew().get(j).getStartVertice());
 					}
 
 					population.get(crewNumber).setChanged(true);
@@ -148,7 +184,7 @@ public class EvolutionaryAlgoConnected {
 				if (population.get(i).isChanged() || population.get(i).isNewCrew()) {
 					calculateFitness(population.get(i));
 					if (population.get(i).getMaxNonBurningVertices() > maxFitness) {
-						//maxFitness = population.get(i).getFitness();
+						// maxFitness = population.get(i).getFitness();
 						maxFitness = population.get(i).getMaxNonBurningVertices();
 						bestCrew = population.get(i);
 
@@ -159,6 +195,12 @@ public class EvolutionaryAlgoConnected {
 			System.out.println("Fitness: " + maxFitness);
 		}
 		Collections.sort(population);
+		// save in Main
+		main.getConnectedCrewData().clear();
+		for (ConnectedFireFighterCrew k : population) {
+			main.getConnectedCrewData().add(k);
+		}
+
 		return bestCrew;
 
 	}
@@ -381,14 +423,14 @@ public class EvolutionaryAlgoConnected {
 					continue OuterLoop;
 				}
 
-				//System.out.println("Start Chain: " + j);
+				// System.out.println("Start Chain: " + j);
 				// initialize Chain
 				int[] chain2 = new int[Main.TimeInterval];
 				int dummy;
 				for (int k = 0; k < Main.TimeInterval; k++) {
 
 					dummy = movementCalculator(tempFighter, k);
-					//System.out.println(dummy);
+					// System.out.println(dummy);
 					// Fehler, Movement nicht m�glich
 					if (dummy == -1) {
 						// Movement des Vorg�ngers neu berechnen
@@ -399,7 +441,7 @@ public class EvolutionaryAlgoConnected {
 					chain2[k] = dummy;
 				}
 
-				//System.out.println("Chain initalized");
+				// System.out.println("Chain initalized");
 
 				tempFighter.setChain(chain2);
 				crew.getCrew().add(tempFighter);
@@ -455,11 +497,11 @@ public class EvolutionaryAlgoConnected {
 						// reset nonBurningVertices to timestep before
 						nonBurningVertices.clear();
 						for (int k = 0; k < Main.CrewSize * Main.CrewSize; k++) {
-							if ( i > 0) {
+							if (i > 0) {
 								if (crew.getNonBurningVerticesIndex(i - 1, k) != 0) {
 									nonBurningVertices.add(crew.getNonBurningVerticesIndex(i - 1, k));
 								}
-							}	
+							}
 						}
 						// reset Fitness
 						tempFitness = crew.getFitness();
@@ -506,11 +548,11 @@ public class EvolutionaryAlgoConnected {
 						// reset nonBurningVertices to timestep before
 						nonBurningVertices.clear();
 						for (int k = 0; k < Main.CrewSize * Main.CrewSize; k++) {
-							if ( i > 0) {
+							if (i > 0) {
 								if (crew.getNonBurningVerticesIndex(i - 1, k) != 0) {
 									nonBurningVertices.add(crew.getNonBurningVerticesIndex(i - 1, k));
 								}
-							}	
+							}
 						}
 						// reset Fitness
 						tempFitness = crew.getFitness();
@@ -557,11 +599,11 @@ public class EvolutionaryAlgoConnected {
 						// reset nonBurningVertices to timestep before
 						nonBurningVertices.clear();
 						for (int k = 0; k < Main.CrewSize * Main.CrewSize; k++) {
-							if ( i > 0) {
+							if (i > 0) {
 								if (crew.getNonBurningVerticesIndex(i - 1, k) != 0) {
 									nonBurningVertices.add(crew.getNonBurningVerticesIndex(i - 1, k));
 								}
-							}	
+							}
 						}
 						// reset Fitness
 						tempFitness = crew.getFitness();
@@ -609,11 +651,11 @@ public class EvolutionaryAlgoConnected {
 						// reset nonBurningVertices to timestep before
 						nonBurningVertices.clear();
 						for (int k = 0; k < Main.CrewSize * Main.CrewSize; k++) {
-							if ( i > 0) {
+							if (i > 0) {
 								if (crew.getNonBurningVerticesIndex(i - 1, k) != 0) {
 									nonBurningVertices.add(crew.getNonBurningVerticesIndex(i - 1, k));
 								}
-							}	
+							}
 						}
 						// reset Fitness
 						tempFitness = crew.getFitness();
@@ -662,11 +704,11 @@ public class EvolutionaryAlgoConnected {
 						// reset nonBurningVertices to timestep before
 						nonBurningVertices.clear();
 						for (int k = 0; k < Main.CrewSize * Main.CrewSize; k++) {
-							if ( i > 0) {
+							if (i > 0) {
 								if (crew.getNonBurningVerticesIndex(i - 1, k) != 0) {
 									nonBurningVertices.add(crew.getNonBurningVerticesIndex(i - 1, k));
 								}
-							}	
+							}
 						}
 						// reset Fitness
 						tempFitness = crew.getFitness();
@@ -711,11 +753,11 @@ public class EvolutionaryAlgoConnected {
 						// reset nonBurningVertices to timestep before
 						nonBurningVertices.clear();
 						for (int k = 0; k < Main.CrewSize * Main.CrewSize; k++) {
-							if ( i > 0) {
+							if (i > 0) {
 								if (crew.getNonBurningVerticesIndex(i - 1, k) != 0) {
 									nonBurningVertices.add(crew.getNonBurningVerticesIndex(i - 1, k));
 								}
-							}	
+							}
 						}
 						// reset Fitness
 						tempFitness = crew.getFitness();
@@ -733,24 +775,21 @@ public class EvolutionaryAlgoConnected {
 							nonBurningVertices.add(k);
 						}
 
-						/*System.out.print("Shift: Non Burning: ");
-						for (Integer k : nonBurningVertices) {
-							System.out.print(k.intValue() + "|");
-						}
-						System.out.println();
-						
-						System.out.print("Shift: DefendedVertices: ");
-						for (int k = 0; k < crew.getCrew().size(); k++) {
-							System.out.print(crew.getCrew().get(k).getCurrentVertice() + "|");
-						}
-						System.out.println();
-						
-						System.out.print("Shift: StartVertices: ");
-						for (int k = 0; k < crew.getCrew().size(); k++) {
-							System.out.print(crew.getCrew().get(k).getStartVertice() + "|");
-						}
-						System.out.println();
-						*/
+						/*
+						 * System.out.print("Shift: Non Burning: "); for (Integer k :
+						 * nonBurningVertices) { System.out.print(k.intValue() + "|"); }
+						 * System.out.println();
+						 * 
+						 * System.out.print("Shift: DefendedVertices: "); for (int k = 0; k <
+						 * crew.getCrew().size(); k++) {
+						 * System.out.print(crew.getCrew().get(k).getCurrentVertice() + "|"); }
+						 * System.out.println();
+						 * 
+						 * System.out.print("Shift: StartVertices: "); for (int k = 0; k <
+						 * crew.getCrew().size(); k++) {
+						 * System.out.print(crew.getCrew().get(k).getStartVertice() + "|"); }
+						 * System.out.println();
+						 */
 
 						shiftList.clear();
 
@@ -781,11 +820,11 @@ public class EvolutionaryAlgoConnected {
 						// reset nonBurningVertices to timestep before
 						nonBurningVertices.clear();
 						for (int k = 0; k < Main.CrewSize * Main.CrewSize; k++) {
-							if ( i > 0) {
+							if (i > 0) {
 								if (crew.getNonBurningVerticesIndex(i - 1, k) != 0) {
 									nonBurningVertices.add(crew.getNonBurningVerticesIndex(i - 1, k));
 								}
-							}	
+							}
 						}
 						// reset Fitness
 						tempFitness = crew.getFitness();
@@ -831,11 +870,11 @@ public class EvolutionaryAlgoConnected {
 						// reset nonBurningVertices to timestep before
 						nonBurningVertices.clear();
 						for (int k = 0; k < Main.CrewSize * Main.CrewSize; k++) {
-							if ( i > 0) {
+							if (i > 0) {
 								if (crew.getNonBurningVerticesIndex(i - 1, k) != 0) {
 									nonBurningVertices.add(crew.getNonBurningVerticesIndex(i - 1, k));
 								}
-							}							
+							}
 						}
 						// reset Fitness
 						tempFitness = crew.getFitness();
@@ -969,18 +1008,16 @@ public class EvolutionaryAlgoConnected {
 				}
 			}
 			// remove objects from list
-			/*System.out.print("RemoveList: ");
-			for (Integer k : removeList) {
-				System.out.print(k.intValue() + "|");
-			}
-			System.out.println();
-			*/
+			/*
+			 * System.out.print("RemoveList: "); for (Integer k : removeList) {
+			 * System.out.print(k.intValue() + "|"); } System.out.println();
+			 */
 
 			for (Integer k : removeList) {
 				nonBurningVertices.remove(k);
 			}
 
-			//System.out.println("TempFitness: " + tempFitness);
+			// System.out.println("TempFitness: " + tempFitness);
 			// save best fitness
 			if (crew.getFitness() < tempFitness) {
 				// System.out.println("New Fitness: " + nonBurningVertices.size());
@@ -988,29 +1025,28 @@ public class EvolutionaryAlgoConnected {
 				crew.setBestTimeStep(i);
 			}
 
-
 			// save non burning vertices in step i
 			int l = 0;
-			//System.out.print("NonBurning: ");
+			// System.out.print("NonBurning: ");
 			for (Integer k : nonBurningVertices) {
 				crew.setNonBurningVerticesIndex(k.intValue(), i, l);
-				//System.out.print(k.intValue() + "|");
+				// System.out.print(k.intValue() + "|");
 				l++;
 			}
-			//System.out.println();
-			
+			// System.out.println();
+
 			int fitnessTest = 0;
-			for(Integer k: nonBurningVertices) {
-				if(!defendedVertices.contains(k)) {
+			for (Integer k : nonBurningVertices) {
+				if (!defendedVertices.contains(k)) {
 					fitnessTest++;
 				}
-							
+
 			}
 			crew.setMaxNonBurningVertices(fitnessTest);
-			/*if (tempFitness > (Main.CrewSize + fitnessTest)) {
-				System.out.println("-----------------Error------------------");
-			}
-			*/
+			/*
+			 * if (tempFitness > (Main.CrewSize + fitnessTest)) {
+			 * System.out.println("-----------------Error------------------"); }
+			 */
 
 			defendedVertices.clear();
 		}
@@ -2168,7 +2204,7 @@ public class EvolutionaryAlgoConnected {
 
 			break;
 		}
-		// nicht erreichbar, da �berall return statements		
+		// nicht erreichbar, da �berall return statements
 		return -1;
 
 	}

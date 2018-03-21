@@ -68,8 +68,7 @@ public class LayoutController {
 	private AnimationTimer drawLoop;
 	private List<Rectangle> grid = new ArrayList<Rectangle>();
 
-	// decide what algo will be done -- 0 = random fighter, 1 = connected Fighter
-	private int crewBoxIndex = 0;
+	
 
 	public LayoutController() {
 	}
@@ -82,10 +81,29 @@ public class LayoutController {
 		CrewBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number value, Number new_value) {
 				// TODO Auto-generated method stub
-				crewBoxIndex = new_value.intValue();
-				System.out.println(crewBoxIndex);
+				Main.crewBoxIndex = new_value.intValue();
+				System.out.println(Main.crewBoxIndex);
 			}
 		});
+		
+		GridBox.setItems(FXCollections.observableArrayList("Infinite Grid", "Bounded Grid"));
+		GridBox.getSelectionModel().selectFirst();
+		GridBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number value, Number new_value) {
+				// TODO Auto-generated method stub
+				Main.gridBoxIndex = new_value.intValue();
+			}
+		});
+		
+		StrategyBox.setItems(FXCollections.observableArrayList("None", "Diamond Crew"));
+		StrategyBox.getSelectionModel().selectFirst();
+		StrategyBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number value, Number new_value) {
+				// TODO Auto-generated method stub
+				Main.strategyBoxIndex = new_value.intValue();
+			}
+		});
+		
 	}
 
 	private void startAlgo() {
@@ -113,12 +131,12 @@ public class LayoutController {
 	private void handleButtonCalculate() {
 		System.out.println("test");
 		// start random or connected ev Algo
-		if (crewBoxIndex == 0) {
+		if (Main.crewBoxIndex == 0) {
 			System.out.println("Hallo");
 			startAlgo();
 		}
 
-		if (crewBoxIndex == 1) {
+		if (Main.crewBoxIndex == 1) {
 			startAlgoConnected();
 		}
 	}
@@ -134,7 +152,7 @@ public class LayoutController {
 			grid.get(i).setFill(Color.RED);
 		}
 		// start random or connected ev Algo
-		if (crewBoxIndex == 0) {
+		if (Main.crewBoxIndex == 0) {
 			FireFighterCrew shownCrew = evAlgo.getBestCrew();
 			draw(shownCrew);
 			CrewLabel.setText(Integer.toString(shownCrew.getID()));
@@ -143,7 +161,7 @@ public class LayoutController {
 		}
 
 		// connected
-		if (crewBoxIndex == 1) {
+		if (Main.crewBoxIndex == 1) {
 			ConnectedFireFighterCrew shownCrew = evAlgoConnected.getBestCrew();
 			drawConnected(shownCrew);
 			CrewLabel.setText(Integer.toString(shownCrew.getID()));

@@ -2,12 +2,12 @@ package model;
 
 import application.Main;
 
-class ConnectedDiaCrew extends ConnectedFireFighterCrew{
+public class ConnectedDiaCrew extends ConnectedFireFighterCrew{
 	private final int size = 16;
 	private int start;
 	
 	//constructs the crew which builds a diamond with size many fighters
-	private void initialize() {
+	public void initialize() {
 		Fitness = Main.CrewSize;
 		generation = 0;
 		

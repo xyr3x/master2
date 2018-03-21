@@ -17,8 +17,7 @@ import controller.EvolutionaryAlgoConnected;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
-import model.ConnectedCrewWrapper;
-import model.ConnectedFireFighterCrew;
+import model.*;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -33,6 +32,10 @@ public class Main extends Application {
 	public static int GridSize = GridLength * GridLength;
 	public static int TimeInterval = 20;
 	public static Random rnd = new Random(1337);
+	//indices for strategies, etc
+	public static int crewBoxIndex = 0;
+	public static int strategyBoxIndex = 0;
+	public static int gridBoxIndex = 0;
 
 	public static int CrewSize = 16;
 	public static int PopulationSize = 100;
@@ -43,7 +46,9 @@ public class Main extends Application {
 	EvolutionaryAlgo evAlgo = new EvolutionaryAlgo();
 	EvolutionaryAlgoConnected evAlgoConnected = new EvolutionaryAlgoConnected();
 	
+	//list to save and open
 	private List<ConnectedFireFighterCrew> connectedCrewData = new ArrayList<ConnectedFireFighterCrew>();
+	private List<FireFighterCrew> crewData = new ArrayList<FireFighterCrew>();
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -101,6 +106,8 @@ public class Main extends Application {
 			controller.setMain(this);
 			controller.setEvAlgo(evAlgo);
 			controller.setEvAlgoConnected(evAlgoConnected);
+			evAlgo.setMain(this);
+			evAlgoConnected.setMain(this);
 
 			
 		} catch (IOException e) {
@@ -167,15 +174,31 @@ public class Main extends Application {
 	 */
 	public void loadCrewDataFromFile(File file) {
 	    try {
-	        JAXBContext context = JAXBContext
-	                .newInstance(ConnectedCrewWrapper.class);
-	        Unmarshaller um = context.createUnmarshaller();
+	    	if(crewBoxIndex == 0) {
+	    		 JAXBContext context = JAXBContext
+	 	                .newInstance(CrewWrapper.class);
+	 	        Unmarshaller um = context.createUnmarshaller();
 
-	        // Reading XML from the file and unmarshalling.
-	        ConnectedCrewWrapper wrapper = (ConnectedCrewWrapper) um.unmarshal(file);
+	 	        // Reading XML from the file and unmarshalling.
+	 	        CrewWrapper wrapper = (CrewWrapper) um.unmarshal(file);
 
-	        connectedCrewData.clear();
-	        connectedCrewData.addAll(wrapper.getCrews());
+	 	        crewData.clear();
+	 	        crewData.addAll(wrapper.getCrews());
+
+	    	}
+	    	else if(crewBoxIndex == 1) {
+	    		 JAXBContext context = JAXBContext
+	 	                .newInstance(ConnectedCrewWrapper.class);
+	 	        Unmarshaller um = context.createUnmarshaller();
+
+	 	        // Reading XML from the file and unmarshalling.
+	 	        ConnectedCrewWrapper wrapper = (ConnectedCrewWrapper) um.unmarshal(file);
+
+	 	        connectedCrewData.clear();
+	 	        connectedCrewData.addAll(wrapper.getCrews());
+
+	    	}
+	    	       
 
 	        // Save the file path to the registry.
 	        setCrewFilePath(file);
@@ -197,20 +220,36 @@ public class Main extends Application {
 	 */
 	public void saveCrewDataToFile(File file) {
 	    try {
-	        JAXBContext context = JAXBContext
-	                .newInstance(ConnectedCrewWrapper.class);
-	        Marshaller m = context.createMarshaller();
-	        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+	    	if(crewBoxIndex == 0) {
+	    		JAXBContext context = JAXBContext
+		                .newInstance(CrewWrapper.class);
+		        Marshaller m = context.createMarshaller();
+		        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-	        // Wrapping our person data.
-	        ConnectedCrewWrapper wrapper = new ConnectedCrewWrapper();
-	        wrapper.setCrews(connectedCrewData);
+		        // Wrapping our person data.
+		        CrewWrapper wrapper = new CrewWrapper();
+		        wrapper.setCrews(crewData);
 
-	        // Marshalling and saving XML to the file.
-	        m.marshal(wrapper, file);
+		        // Marshalling and saving XML to the file.
+		        m.marshal(wrapper, file);
+	    	}
+	    	else if(crewBoxIndex == 1) {
+	    		JAXBContext context = JAXBContext
+		                .newInstance(ConnectedCrewWrapper.class);
+		        Marshaller m = context.createMarshaller();
+		        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-	        // Save the file path to the registry.
+		        // Wrapping our person data.
+		        ConnectedCrewWrapper wrapper = new ConnectedCrewWrapper();
+		        wrapper.setCrews(connectedCrewData);
+
+		        // Marshalling and saving XML to the file.
+		        m.marshal(wrapper, file);
+	    	}
+	    	
+	    	// Save the file path to the registry.
 	        setCrewFilePath(file);
+	        
 	    } catch (Exception e) { // catches ANY exception
 	        Alert alert = new Alert(AlertType.ERROR);
 	        alert.setTitle("Error");
@@ -229,6 +268,11 @@ public class Main extends Application {
 	//getter and setter
 	public List<ConnectedFireFighterCrew> getConnectedCrewData() {
 		return connectedCrewData;
+		
+	}
+	
+	public List<FireFighterCrew> getCrewData() {
+		return crewData;
 		
 	}
 	
