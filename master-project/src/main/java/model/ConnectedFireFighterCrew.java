@@ -10,6 +10,9 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+
 import application.Main;
 
 public class ConnectedFireFighterCrew implements Comparable<ConnectedFireFighterCrew> {
@@ -42,6 +45,7 @@ public class ConnectedFireFighterCrew implements Comparable<ConnectedFireFighter
 		ID = iD;
 	}
 
+	
 	public int getFitness() {
 		return Fitness;
 	}
@@ -49,7 +53,8 @@ public class ConnectedFireFighterCrew implements Comparable<ConnectedFireFighter
 	public void setFitness(int fitness) {
 		Fitness = fitness;
 	}
-
+	
+	
 	public List<ConnectedFireFighter> getCrew() {
 		return crew;
 	}

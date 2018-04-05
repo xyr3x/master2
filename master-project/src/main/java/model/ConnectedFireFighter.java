@@ -8,6 +8,9 @@
 
 package model;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+
 import application.Main;
 
 public class ConnectedFireFighter extends AbstractFireFighter{
@@ -34,7 +37,7 @@ public class ConnectedFireFighter extends AbstractFireFighter{
 	public void setLeftNeighbour(ConnectedFireFighter leftNeighbour) {
 		this.leftNeighbour = leftNeighbour;
 	}
-
+	
 	public ConnectedFireFighter getRightNeighbour() {
 		return rightNeighbour;
 	}
@@ -42,7 +45,8 @@ public class ConnectedFireFighter extends AbstractFireFighter{
 	public void setRightNeighbour(ConnectedFireFighter rightNeighbour) {
 		this.rightNeighbour = rightNeighbour;
 	}
-
+	
+	@XmlElement(name = "position")
 	public int[] getPosition() {
 		return position;
 	}
@@ -50,6 +54,7 @@ public class ConnectedFireFighter extends AbstractFireFighter{
 	public void setPosition(int[] position) {
 		this.position = position;
 	}
+	
 	
 	public int getPositionIndex(int index) {
 		return position[index];

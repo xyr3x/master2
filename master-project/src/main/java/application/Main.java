@@ -16,6 +16,7 @@ import controller.EvolutionaryAlgo;
 import controller.EvolutionaryAlgoConnected;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.*;
 import javafx.scene.Scene;
@@ -115,6 +116,38 @@ public class Main extends Application {
 		}
 	}
 	
+	/**
+	 * opens the properties dialog
+	 */
+	public void showPropertiesDialog() {
+		try {
+    		//Load fxml file and create a new stage for the popup dialog
+    		FXMLLoader loader = new FXMLLoader();
+    		loader.setLocation(Main.class.getResource("PropertiesDialog.fxml"));
+    		AnchorPane page = (AnchorPane) loader.load();
+    		
+    		//Create the dialog stage
+    		Stage dialogStage = new Stage();
+    		dialogStage.setTitle("Edit Properties");
+    		dialogStage.initModality(Modality.WINDOW_MODAL);
+    		dialogStage.initOwner(primaryStage);
+    		Scene scene = new Scene(page);
+    		dialogStage.setScene(scene);
+    		
+    		//controller
+    		PropertiesDialogController controller = loader.getController();
+    		controller.setDialogStage(dialogStage);
+    		
+    		//Show the dialog until the user closes it
+    		dialogStage.showAndWait();
+    	}
+		catch(IOException e) {
+			e.printStackTrace();
+			
+		}
+	}
+	
+	
 	/*private void startAlgo(){		
 		//evolutionaryAlgo ausf�hren
 		//daf�r service aufrufen
@@ -167,7 +200,7 @@ public class Main extends Application {
 	}
 	
 	/**
-	 * Loads person data from the specified file. The current person data will
+	 * Loads crew data from the specified file. The current crew data will
 	 * be replaced.
 	 * 
 	 * @param file
@@ -184,7 +217,9 @@ public class Main extends Application {
 
 	 	        crewData.clear();
 	 	        crewData.addAll(wrapper.getCrews());
-
+	 	        
+	 	        // Save the file path to the registry.
+		        setCrewFilePath(file);
 	    	}
 	    	else if(crewBoxIndex == 1) {
 	    		 JAXBContext context = JAXBContext
@@ -197,11 +232,12 @@ public class Main extends Application {
 	 	        connectedCrewData.clear();
 	 	        connectedCrewData.addAll(wrapper.getCrews());
 
+	 	        // Save the file path to the registry.
+		        setCrewFilePath(file);
 	    	}
 	    	       
 
-	        // Save the file path to the registry.
-	        setCrewFilePath(file);
+	        
 
 	    } catch (Exception e) { // catches ANY exception
 	        Alert alert = new Alert(AlertType.ERROR);
@@ -214,7 +250,7 @@ public class Main extends Application {
 	}
 
 	/**
-	 * Saves the current person data to the specified file.
+	 * Saves the current crew data to the specified file.
 	 * 
 	 * @param file
 	 */
@@ -232,25 +268,33 @@ public class Main extends Application {
 
 		        // Marshalling and saving XML to the file.
 		        m.marshal(wrapper, file);
+		        
+		        // Save the file path to the registry.
+		        setCrewFilePath(file);
 	    	}
 	    	else if(crewBoxIndex == 1) {
 	    		JAXBContext context = JAXBContext
-		                .newInstance(ConnectedCrewWrapper.class);
+		                .newInstance(ConnectedCrewWrapper2.class);
 		        Marshaller m = context.createMarshaller();
 		        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
 		        // Wrapping our person data.
-		        ConnectedCrewWrapper wrapper = new ConnectedCrewWrapper();
-		        wrapper.setCrews(connectedCrewData);
+		        ConnectedCrewWrapper2 wrapper = new ConnectedCrewWrapper2();
+		        wrapper.setFighter(connectedCrewData.get(0).getCrew());
+		        wrapper.setDefendedVertices(connectedCrewData.get(0).getDefendedVertices());
+		        wrapper.setNonBurningVertices(connectedCrewData.get(0).getNonBurningVertices());
+		        wrapper.setFitness(connectedCrewData.get(0).getFitness());
 
 		        // Marshalling and saving XML to the file.
 		        m.marshal(wrapper, file);
-	    	}
+		        
+		        // Save the file path to the registry.
+		        setCrewFilePath(file);
+	    	} 	
 	    	
-	    	// Save the file path to the registry.
-	        setCrewFilePath(file);
 	        
 	    } catch (Exception e) { // catches ANY exception
+	    	e.printStackTrace();
 	        Alert alert = new Alert(AlertType.ERROR);
 	        alert.setTitle("Error");
 	        alert.setHeaderText("Could not save data");

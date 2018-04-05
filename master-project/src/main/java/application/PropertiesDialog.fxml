@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PropertiesDialogController">
+   <children>
+      <VBox spacing="20.0">
+         <children>
+            <Label text="Properties">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <VBox spacing="10.0">
+               <children>
+                  <HBox spacing="40.0">
+                     <children>
+                        <Label prefWidth="110.0" text="Populationsize:" />
+                        <TextField fx:id="populationsizeField" />
+                     </children>
+                  </HBox>
+                  <HBox spacing="40.0">
+                     <children>
+                        <Label prefWidth="110.0" text="Crewsize:" />
+                        <TextField fx:id="crewsizeField" />
+                     </children>
+                  </HBox>
+                  <HBox spacing="40.0">
+                     <children>
+                        <Label prefWidth="110.0" text="Timeinterval" />
+                        <TextField fx:id="timeintervalField" />
+                     </children>
+                  </HBox>
+                  <HBox spacing="40.0">
+                     <children>
+                        <Label prefWidth="110.0" text="Mutationprobability" />
+                        <TextField fx:id="mutationprobabilityField" />
+                     </children>
+                  </HBox>
+                  <HBox prefWidth="110.0" spacing="40.0">
+                     <children>
+                        <Label prefWidth="110.0" text="Gridlength" />
+                        <TextField fx:id="gridlengthField" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+      <Button fx:id="okayButton" layoutX="256.0" layoutY="252.0" mnemonicParsing="false" onAction="#handleOkay" prefWidth="60.0" text="Okay" />
+      <Button fx:id="closeButton" layoutX="324.0" layoutY="252.0" mnemonicParsing="false" onAction="#handleCancel" prefWidth="60.0" text="Cancel" />
+   </children>
+</AnchorPane>

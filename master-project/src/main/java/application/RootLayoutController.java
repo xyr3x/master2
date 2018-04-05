@@ -107,6 +107,15 @@ public class RootLayoutController {
 
         alert.showAndWait();
     }
+    
+    
+    /**
+     * Opens the properties dialog
+     */
+    @FXML
+    private void handleProperties() {
+    	main.showPropertiesDialog();
+    }
 
     /**
      * Closes the application.

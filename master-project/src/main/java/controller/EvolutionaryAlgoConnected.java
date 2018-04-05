@@ -19,7 +19,7 @@ public class EvolutionaryAlgoConnected {
 
 	private int maxFitness = 0;
 	// private int optimum = Main.CrewSize + 100;
-	private int optimum = 10;
+	private int optimum = 7;
 	private ConnectedFireFighterCrew bestCrew = new ConnectedFireFighterCrew();
 	private int[] bestSetUp = new int[Main.CrewSize];
 
