@@ -131,44 +131,40 @@ public class EvolutionaryAlgo {
 			}
 
 			// 3.3 Mutation
-			if (Main.rnd.nextInt(100) < Main.MutationProbability) {
+			for (FireFighterCrew k : population) {
 
-				// numbers??
-				int numberOfCrews = Main.rnd.nextInt(Main.PopulationSize / 4);
-				int numberOfFighters = Main.rnd.nextInt(Main.CrewSize);
-				int numberOfBitflips = Main.rnd.nextInt(Main.TimeInterval / 4);
-				// int numberOfStarts = Main.rnd.nextInt(Main.CrewSize / 5);
-				int numberOfStarts = 0;
-				int fighterNumber, crewNumber;
+				if (Main.rnd.nextInt(100) < Main.MutationProbability) {
 
-				for (int i = 0; i < numberOfCrews; i++) {
+					int numberOfFighters = Main.rnd.nextInt(Main.CrewSize);
+					int numberOfBitflips = Main.rnd.nextInt(Main.TimeInterval / 4);
+					// int numberOfStarts = Main.rnd.nextInt(Main.CrewSize / 5);
+					int numberOfStarts = 0;
+					int fighterNumber;
+
 					// mutate chains
-					crewNumber = Main.rnd.nextInt(Main.PopulationSize);
 					for (int j = 0; j < numberOfFighters; j++) {
 						fighterNumber = Main.rnd.nextInt(Main.CrewSize);
-						for (int k = 0; k < numberOfBitflips; k++) {
-							population.get(crewNumber).getCrew().get(fighterNumber)
-									.setChainIndex(Main.rnd.nextInt(Main.TimeInterval), Main.rnd.nextInt(5));
+						for (int i = 0; i < numberOfBitflips; i++) {
+							k.getCrew().get(fighterNumber).setChainIndex(Main.rnd.nextInt(Main.TimeInterval),
+									Main.rnd.nextInt(5));
 						}
 						// reset current vertices of the crew
-						population.get(crewNumber).getCrew().get(fighterNumber).setCurrentVertice(
-								population.get(crewNumber).getCrew().get(fighterNumber).getStartVertice());
+						k.getCrew().get(fighterNumber)
+								.setCurrentVertice(k.getCrew().get(fighterNumber).getStartVertice());
 					}
-					population.get(crewNumber).setChanged(true);
+					k.setChanged(true);
 
 					// mutate start vertices
-					crewNumber = Main.rnd.nextInt(Main.PopulationSize);
 					for (int j = 0; j < numberOfStarts; j++) {
 						fighterNumber = Main.rnd.nextInt(Main.CrewSize);
-						population.get(crewNumber).getCrew().get(fighterNumber)
-								.setStartVertice(startVerticeConstructor());
+						k.getCrew().get(fighterNumber).setStartVertice(startVerticeConstructor());
 
 						// reset current vertices of the crew
-						population.get(crewNumber).getCrew().get(fighterNumber).setCurrentVertice(
-								population.get(crewNumber).getCrew().get(fighterNumber).getStartVertice());
+						k.getCrew().get(fighterNumber)
+								.setCurrentVertice(k.getCrew().get(fighterNumber).getStartVertice());
 
 					}
-					population.get(crewNumber).setChanged(true);
+					k.setChanged(true);
 				}
 
 			}
@@ -187,12 +183,13 @@ public class EvolutionaryAlgo {
 			}
 			System.out.println("Fitness: " + maxFitness);
 		}
-		//Save in Main
+		// Save in Main
 		main.getCrewData().clear();
-		for(FireFighterCrew k : population) {
+
+		for (FireFighterCrew k : population) {
 			main.getCrewData().add(k);
 		}
-		
+
 		return bestCrew;
 
 	}

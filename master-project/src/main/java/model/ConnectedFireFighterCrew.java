@@ -28,7 +28,7 @@ public class ConnectedFireFighterCrew implements Comparable<ConnectedFireFighter
 	// save the defended vertices of all timesteps
 	protected int[][] defendedVertices = new int[Main.TimeInterval][Main.CrewSize];
 	// save the non burning vertices of all timesteps
-	protected int[][] nonBurningVertices = new int[Main.TimeInterval][Main.CrewSize * Main.CrewSize];
+	protected int[][] nonBurningVertices = new int[Main.TimeInterval][Main.GridLength * Main.GridLength + 100];
 
 	// constructor
 	public ConnectedFireFighterCrew() {

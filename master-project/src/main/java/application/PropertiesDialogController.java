@@ -31,7 +31,21 @@ public class PropertiesDialogController {
 	public void setDialogStage(Stage dialogStage) {
 		this.dialogStage = dialogStage;
 	}
+	
+	/**
+	 * shows the values of the properties
+	 */
+	public void showProperties() {
+		populationsizeField.setText(Integer.toString(Main.PopulationSize));
+		crewsizeField.setText(Integer.toString(Main.CrewSize));
+		gridlengthField.setText(Integer.toString(Main.GridLength));
+		timeintervalField.setText(Integer.toString(Main.TimeInterval));
+		mutationprobabilityField.setText(Integer.toString(Main.MutationProbability));
+	}
 
+	/**
+	 * sets the properties in Main when the okay button is pressed
+	 */
 	@FXML
 	private void handleOkay() {
 		int textValue = 0;
@@ -70,16 +84,28 @@ public class PropertiesDialogController {
 		dialogStage.close();
 	}
 
+	/**
+	 * cancels the properties update
+	 */
 	@FXML
 	private void handleCancel() {
 		dialogStage.close();
 	}
 
+	/**
+	 * checks if field value is integer value
+	 * @param field
+	 * @return returns the fieldsvalue if it is an integer and larger than 0, returns -1 if it's not an integer or smaller than 0
+	 */
 	private int isValid(TextField field) {
 		int textValue = 0;
 		if (crewsizeField.getText() != null || crewsizeField.getText().length() > 0) {
 			try {
 				textValue = Integer.parseInt(crewsizeField.getText());
+				if (textValue < 0) {
+					return -1;
+				}
+				
 			} catch (NumberFormatException e) {
 				// handle error
 				return -1;

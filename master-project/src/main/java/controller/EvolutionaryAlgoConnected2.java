@@ -13,20 +13,22 @@ import java.util.concurrent.atomic.AtomicInteger;
 import application.Main;
 import model.*;
 
-public class EvolutionaryAlgoConnected {
+public class EvolutionaryAlgoConnected2 {
 	private List<ConnectedFireFighterCrew> population = new ArrayList<ConnectedFireFighterCrew>();
 	private boolean fighterAtBorder = false;
 
 	private int maxFitness = 0;
 	// private int optimum = Main.CrewSize + 100;
-	private int optimum = 7;
+	private int optimum = 407;
 	private ConnectedFireFighterCrew bestCrew = new ConnectedFireFighterCrew();
 	private int[] bestSetUp = new int[Main.CrewSize];
+	private int lowerBorder = (Main.GridLength / 2) * Main.GridLength - 1;
+	private int upperBorder =  Main.BoundedGridSize - ((Main.GridLength / 2) * Main.GridLength + 1);
 
 	Main main;
 
 	// constructor
-	public EvolutionaryAlgoConnected() {
+	public EvolutionaryAlgoConnected2() {
 
 	}
 
@@ -35,13 +37,15 @@ public class EvolutionaryAlgoConnected {
 	}
 
 	public ConnectedFireFighterCrew evAlgo() {
-		System.out.println("Start");
+		System.out.println("Starter");
 		// stuff
 		int counter = 0;
 		population.clear();
 
 		// check main for data
-		if (main.getConnectedCrewData().size() == Main.CrewSize) {
+		//if (main.getConnectedCrewData().size() == Main.CrewSize) {
+		//dummy needed
+		if (0 == Main.CrewSize) {
 			for (ConnectedFireFighterCrew k : main.getConnectedCrewData()) {
 				population.add(k);
 			}
@@ -151,23 +155,30 @@ public class EvolutionaryAlgoConnected {
 			}
 
 			// 3.3 Mutation
-			for (ConnectedFireFighterCrew k : population) {
-				if (Main.rnd.nextInt(100) < Main.MutationProbability) {
+			if (Main.rnd.nextInt(100) < Main.MutationProbability) {
 
+				// numbers??
+				int numberOfCrews = Main.rnd.nextInt(Main.PopulationSize / 4);
+
+				for (int i = 0; i < numberOfCrews; i++) {
 					// change movement of 1st fighter in timestep, recalculate all other movements
+					int crewNumber = Main.rnd.nextInt(Main.PopulationSize);
 					int timestep = Main.rnd.nextInt(Main.TimeInterval);
-					k.getCrew().get(0).setChainIndex(timestep, Main.rnd.nextInt(5));
-					k.getCrew().get(0).setCurrentVertice(k.getCrew().get(0).getStartVertice());
+					population.get(crewNumber).getCrew().get(0).setChainIndex(timestep, Main.rnd.nextInt(5));
+					population.get(crewNumber).getCrew().get(0)
+							.setCurrentVertice(population.get(crewNumber).getCrew().get(0).getStartVertice());
 
 					for (int j = 1; j < Main.CrewSize; j++) {
-						for (int i = timestep; i < Main.TimeInterval; i++) {
-							k.getCrew().get(j).setChainIndex(i, movementCalculator(k.getCrew().get(j), i));
+						for (int k = timestep; k < Main.TimeInterval; k++) {
+							population.get(crewNumber).getCrew().get(j).setChainIndex(k,
+									movementCalculator(population.get(crewNumber).getCrew().get(j), k));
 						}
-						k.getCrew().get(j).setCurrentVertice(k.getCrew().get(j).getStartVertice());
+						population.get(crewNumber).getCrew().get(j)
+								.setCurrentVertice(population.get(crewNumber).getCrew().get(j).getStartVertice());
 					}
 
-					k.setChanged(true);
-					k.setFitness(Main.CrewSize);
+					population.get(crewNumber).setChanged(true);
+					population.get(crewNumber).setFitness(Main.CrewSize);
 				}
 
 			}
@@ -209,7 +220,7 @@ public class EvolutionaryAlgoConnected {
 			int[] startVertices = new int[Main.CrewSize];
 
 			// init first fighter
-			int startVertice = Main.rnd.nextInt(Main.GridSize);
+			int startVertice = Main.rnd.nextInt(lowerBorder);
 			ConnectedFireFighter fighter1 = new ConnectedFireFighter();
 			fighter1.setStartVertice(startVertice);
 			fighter1.setCurrentVertice(startVertice);
@@ -256,7 +267,7 @@ public class EvolutionaryAlgoConnected {
 							startVertices[j] = tempFighter.getStartVertice();
 							finished = true;
 							counter = 0;
-							break; // PopulationLoop;
+							break; 
 						}
 						// force restart
 						else {
@@ -408,7 +419,7 @@ public class EvolutionaryAlgoConnected {
 
 				// Counter = 8; also init fehlgeschlagen, abfangen der dauerschleife
 				if (counter == 8) {
-					System.out.println("Fail");
+					System.out.println("Fail: i = " + i + " ;j = " + j);
 					// restart from j = 1
 					j = 0;
 					counter = 0;
@@ -416,7 +427,7 @@ public class EvolutionaryAlgoConnected {
 					continue OuterLoop;
 				}
 
-				// System.out.println("Start Chain: " + j);
+				System.out.println("Start Chain: " + j);
 				// initialize Chain
 				int[] chain2 = new int[Main.TimeInterval];
 				int dummy;
@@ -429,18 +440,34 @@ public class EvolutionaryAlgoConnected {
 						// Movement des Vorg�ngers neu berechnen
 						startVertices[j] = 0;
 						j -= 1;
+						System.out.println("HellO");
 						continue OuterLoop;
 					}
 					chain2[k] = dummy;
 				}
 
-				// System.out.println("Chain initalized");
+				System.out.println("Chain initalized");
 
 				tempFighter.setChain(chain2);
 				crew.getCrew().add(tempFighter);
+				
 
 			}
-
+			System.out.println("Test:");
+			//add nonburningvertices in the bounded grid
+			for(int j = 0; j < Main.TimeInterval; j++) {
+				System.out.println("NonBurningVertices: " + j);
+				int index2 = 0;
+				for(i = 0; i <= lowerBorder; i++) {
+					crew.setNonBurningVerticesIndex(i, j, i);
+					index2++;
+				}
+				for (i = upperBorder + 1; i < Main.GridSize; i++) {
+					crew.setNonBurningVerticesIndex(i, j, index2 + i);
+				}
+			}
+			
+			System.out.println("Hello World");
 			crew.setFitness(Main.CrewSize);
 			crew.setGeneration(0);
 			population.add(crew);
@@ -969,32 +996,40 @@ public class EvolutionaryAlgoConnected {
 				if (!defendedVertices.contains((Integer) k.intValue())) {
 					if (!nonBurningVertices.contains((Integer) (k.intValue() - 1))) {
 						if (!defendedVertices.contains((Integer) (k.intValue() - 1))) {
-							removeList.add(k);
-							tempFitness -= 1;
-							continue;
+							if (k.intValue() - 1 > lowerBorder && k.intValue() - 1 < upperBorder) {
+								removeList.add(k);
+								tempFitness -= 1;
+								continue;
+							}
 						}
 					}
 
 					if (!nonBurningVertices.contains((Integer) (k.intValue() + 1))) {
 						if (!defendedVertices.contains((Integer) (k.intValue() + 1))) {
-							removeList.add(k);
-							tempFitness -= 1;
-							continue;
+							if (k.intValue() + 1 > lowerBorder && k.intValue() + 1 < upperBorder) {
+								removeList.add(k);
+								tempFitness -= 1;
+								continue;
+							}
 						}
 					}
 					if (!nonBurningVertices.contains((Integer) (k.intValue() + Main.GridLength))) {
 						if (!defendedVertices.contains((Integer) (k.intValue() + Main.GridLength))) {
-							removeList.add(k);
-							tempFitness -= 1;
-							continue;
+							if (k.intValue() + Main.GridLength > lowerBorder && k.intValue() + Main.GridLength < upperBorder) {
+								removeList.add(k);
+								tempFitness -= 1;
+								continue;
+							}
 						}
 					}
 
 					if (!nonBurningVertices.contains((Integer) (k.intValue() - Main.GridLength))) {
 						if (!defendedVertices.contains((Integer) (k.intValue() - Main.GridLength))) {
-							removeList.add(k);
-							tempFitness -= 1;
-							continue;
+							if (k.intValue() - Main.GridLength > lowerBorder && k.intValue() - Main.GridLength < upperBorder) {
+								removeList.add(k);
+								tempFitness -= 1;
+								continue;
+							}
 						}
 					}
 
@@ -2209,7 +2244,7 @@ public class EvolutionaryAlgoConnected {
 		switch (direction) {
 		// north
 		case 1:
-			if ((vertice + Main.GridLength) < Main.GridSize) {
+			if ((vertice + Main.GridLength) <= lowerBorder) {
 				if (intInArray(vertice + Main.GridLength, compareVertices)) {
 					// vertice already defended
 					return false;
@@ -2222,7 +2257,7 @@ public class EvolutionaryAlgoConnected {
 
 			// north east
 		case 2:
-			if (((vertice + Main.GridLength) < Main.GridSize) && ((vertice % Main.GridLength) <= Main.GridLength - 2)) {
+			if (((vertice + Main.GridLength) < lowerBorder) && ((vertice % Main.GridLength) <= Main.GridLength - 2)) {
 				if (intInArray(vertice + Main.GridLength + 1, compareVertices)) {
 					// vertice already defended
 					return false;
@@ -2300,7 +2335,7 @@ public class EvolutionaryAlgoConnected {
 
 			// north west
 		case 8:
-			if (((vertice % Main.GridLength) >= 2) && ((vertice + Main.GridLength) < Main.GridSize)) {
+			if (((vertice % Main.GridLength) >= 2) && ((vertice + Main.GridLength) < lowerBorder)) {
 				if (intInArray(vertice + Main.GridLength - 1, compareVertices)) {
 					// vertice already defended
 					return false;

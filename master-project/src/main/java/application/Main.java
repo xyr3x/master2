@@ -31,6 +31,7 @@ public class Main extends Application {
 	public static int CrewID = 0;
 	public static int GridLength = 100;
 	public static int GridSize = GridLength * GridLength;
+	public static int BoundedGridSize = GridLength * GridLength * 2;
 	public static int TimeInterval = 20;
 	public static Random rnd = new Random(1337);
 	//indices for strategies, etc
@@ -51,6 +52,10 @@ public class Main extends Application {
 	private List<ConnectedFireFighterCrew> connectedCrewData = new ArrayList<ConnectedFireFighterCrew>();
 	private List<FireFighterCrew> crewData = new ArrayList<FireFighterCrew>();
 	
+	
+	/**
+	 * starts the application
+	 */
 	@Override
 	public void start(Stage primaryStage) {
 		try {
@@ -68,7 +73,9 @@ public class Main extends Application {
 		}
 	}
 	
-	
+	/**
+	 * Opens the rootlayout
+	 */	
 	public void initRootLayout() {
 		try {
 			// Load fxml file for RootLayout
@@ -92,7 +99,9 @@ public class Main extends Application {
 
 		}
 	
-	
+	/**
+	 * opens the standard layout
+	 */	
 	public void showLayout() {
 		try {
 			// Load fxml file for LineOverview
@@ -137,6 +146,7 @@ public class Main extends Application {
     		//controller
     		PropertiesDialogController controller = loader.getController();
     		controller.setDialogStage(dialogStage);
+    		controller.showProperties();
     		
     		//Show the dialog until the user closes it
     		dialogStage.showAndWait();
@@ -304,7 +314,10 @@ public class Main extends Application {
 	    }
 	}
 	
-	
+	/**
+	 * launches the app
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		launch(args);
 	}

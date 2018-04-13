@@ -1,7 +1,7 @@
 package model;
 
 import application.Main;
-import controller.EvolutionaryAlgoConnected;
+import controller.EvolutionaryAlgoConnected2;
 
 public class tester {
 
@@ -9,7 +9,7 @@ public class tester {
 		// TODO Auto-generated method stub
 		System.out.println("Tester");
 
-		EvolutionaryAlgoConnected evAlgo = new EvolutionaryAlgoConnected();
+		EvolutionaryAlgoConnected2 evAlgo = new EvolutionaryAlgoConnected2();
 		evAlgo.evAlgo();
 
 		/*

@@ -7,7 +7,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PropertiesDialogController">
    <children>
-      <VBox spacing="20.0">
+      <VBox spacing="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="5.0">
          <children>
             <Label text="Properties">
                <font>
