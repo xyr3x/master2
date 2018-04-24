@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <ScrollPane fx:id="scrollPane" prefHeight="338.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <content>
+                  <Pane fx:id="drawPane" prefHeight="200.0" prefWidth="200.0" />
+               </content>
+            </ScrollPane>
+         </children>
+      </AnchorPane>
+   </center>
+   <bottom>
+      <HBox prefHeight="60.0" spacing="50.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox spacing="10.0">
+               <children>
+                  <HBox layoutY="578.0" prefHeight="60.0" prefWidth="601.0" spacing="40.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="578.0">
+                     <children>
+                        <Label layoutY="578.0" text="Crew Number" />
+                        <Label fx:id="CrewLabel" layoutX="38.0" layoutY="578.0" />
+                        <Label layoutX="78.0" layoutY="578.0" text="Fitness" />
+                        <Label fx:id="FitnessLabel" layoutX="117.0" layoutY="578.0" />
+                        <Label layoutX="158.0" layoutY="578.0" text="Generation" />
+                        <Label fx:id="GenerationLabel" layoutX="203.0" layoutY="578.0" />
+                        <Label text="Timestep" />
+                        <Label fx:id="TimeStepLabel" />
+                     </children>
+                     <padding>
+                        <Insets top="5.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets left="5.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox spacing="20.0">
+                     <children>
+                        <Label text="Animate: ">
+                           <HBox.margin>
+                              <Insets top="3.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Button mnemonicParsing="false" onAction="#handleButtonLastStep" prefWidth="75.0" text="Last Step" />
+                        <Button mnemonicParsing="false" onAction="#handleButtonNextStep" prefWidth="75.0" text="Next Step" />
+                        <Button fx:id="StartButton" mnemonicParsing="false" onAction="#handleButtonAnimate" prefHeight="25.0" prefWidth="75.0" text="Animate">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#handleButtonPause" prefWidth="75.0" text="Pause" />
+                        <Button mnemonicParsing="false" onAction="#handleButtonResume" prefWidth="75.0" text="Resume" />
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox spacing="5.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#handleButtonCalculate" prefWidth="67.0" text="Calculate" />
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+   </bottom>
+   <right>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox layoutX="14.0" layoutY="14.0" spacing="10.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
+               <children>
+                  <Label text="Settings: " />
+                  <ChoiceBox fx:id="CrewBox" prefWidth="150.0" />
+                  <ChoiceBox fx:id="GridBox" prefWidth="150.0" />
+                  <ChoiceBox fx:id="StrategyBox" prefWidth="150.0" />
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </right>
+</BorderPane>

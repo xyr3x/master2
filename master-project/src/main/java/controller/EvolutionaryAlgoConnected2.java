@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import application.Main;
 import model.*;
+import strategies.ConnectedDiaCrew;
 
 public class EvolutionaryAlgoConnected2 {
 	private List<ConnectedFireFighterCrew> population = new ArrayList<ConnectedFireFighterCrew>();

@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import application.Main;
 import model.*;
+import strategies.ConnectedDiaCrew;
 
 public class EvolutionaryAlgoConnected {
 	private List<ConnectedFireFighterCrew> population = new ArrayList<ConnectedFireFighterCrew>();
@@ -19,7 +20,7 @@ public class EvolutionaryAlgoConnected {
 
 	private int maxFitness = 0;
 	// private int optimum = Main.CrewSize + 100;
-	private int optimum = 7;
+	private int optimum = 15;
 	private ConnectedFireFighterCrew bestCrew = new ConnectedFireFighterCrew();
 	private int[] bestSetUp = new int[Main.CrewSize];
 

@@ -1,7 +1,13 @@
 package application;
 	
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -14,6 +20,7 @@ import javax.xml.bind.Unmarshaller;
 import controller.DrawingToolGreedy;
 import controller.EvolutionaryAlgo;
 import controller.EvolutionaryAlgoConnected;
+import controller.SaveFunctions;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Modality;
@@ -258,6 +265,61 @@ public class Main extends Application {
 	        alert.showAndWait();
 	    }
 	}
+	
+	
+	/**
+	 * Loads crew data from the specified file. The current crew data will
+	 * be replaced.
+	 * 
+	 * @param file
+	 */
+	public void loadCrewDataFromFile2(File file) {
+		System.out.println("Test");
+		SaveFunctions sf = new SaveFunctions();
+		try {
+	    	if(crewBoxIndex == 0) {
+	    		//clear lists
+	    		crewData.clear();
+	    		Main.crewBoxIndex = 0;
+	    	}
+	    	else if(crewBoxIndex == 1) {
+	    		System.out.println("Test1");
+	    		Main.crewBoxIndex = 1;
+	    		//clear lists
+	    		connectedCrewData.clear();
+	    		
+	    		String fileText = new String();
+	    		fileText = file.toString();
+	    		
+	    		//split file into single crews
+	    		String [] fileTextSplit = fileText.split("</ConnectedFireFighterCrew>");
+	    		System.out.println(fileTextSplit.length);
+	    		
+	    		//create crew from text
+	    		for(int i = 0; i < fileTextSplit.length; i++) {
+	    			ConnectedFireFighterCrew crew = sf.stringToConnectedCrew(fileTextSplit[i]);
+	    			connectedCrewData.add(crew);	    			
+	    		}
+	    		// Save the file path to the registry.
+		        setCrewFilePath(file);
+		        System.out.println("Test2");
+		        System.out.println(connectedCrewData.get(10).getID());
+	    	}
+	    	       
+
+	        
+
+	    } catch (Exception e) { // catches ANY exception
+	        Alert alert = new Alert(AlertType.ERROR);
+	        alert.setTitle("Error");
+	        alert.setHeaderText("Could not load data");
+	        alert.setContentText("Could not load data from file:\n" + file.getPath());
+
+	        alert.showAndWait();
+	    }
+	}
+
+	
 
 	/**
 	 * Saves the current crew data to the specified file.
@@ -313,6 +375,49 @@ public class Main extends Application {
 	        alert.showAndWait();
 	    }
 	}
+	
+	
+	/**
+	 * Saves the current crew data to the specified file.
+	 * 
+	 * @param file
+	 */
+	public void saveCrewDataToFile2(File file) {
+		SaveFunctions sf = new SaveFunctions();
+		StringBuilder dummy = new StringBuilder();
+	    try {
+	    	if(crewBoxIndex == 0) {
+	    		
+	    	}
+	    	else if(crewBoxIndex == 1) {
+	    		//write every crew into string
+	    		for(ConnectedFireFighterCrew k : connectedCrewData) {
+	    			//System.out.println("Test 1");
+	    			dummy.append(sf.connectedCrewToString(k));
+	    			//System.out.println(dummy);
+	    			    			
+	    		}
+	    		//write string into file
+	    		System.out.println("Test");
+	    		String text = dummy.toString();
+	    		InputStream is = new ByteArrayInputStream(text.getBytes());
+	    		Path target = Paths.get(file.getAbsolutePath());
+	    	    Files.copy(is, target, StandardCopyOption.REPLACE_EXISTING);
+	    	} 	
+	    	
+	        
+	    } catch (Exception e) { // catches ANY exception
+	    	e.printStackTrace();
+	        Alert alert = new Alert(AlertType.ERROR);
+	        alert.setTitle("Error");
+	        alert.setHeaderText("Could not save data");
+	        alert.setContentText("Could not save data to file:\n" + file.getPath());
+
+	        alert.showAndWait();
+	    }
+	}
+	
+	
 	
 	/**
 	 * launches the app

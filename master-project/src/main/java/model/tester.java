@@ -10,7 +10,13 @@ public class tester {
 		System.out.println("Tester");
 
 		EvolutionaryAlgoConnected2 evAlgo = new EvolutionaryAlgoConnected2();
-		evAlgo.evAlgo();
+		StringBuilder SB = new StringBuilder();
+		
+		String result = (new StringBuilder()).append("test").append("--Hello").toString();
+		String result2 = SB.append("Test2").append("hello").toString();
+		System.out.println(result);
+		System.out.println(result2);
+		//evAlgo.evAlgo();
 
 		/*
 		 * int parent1 = 2; int parent2 = 3; int crossOver =
@@ -148,7 +154,7 @@ public class tester {
 		 * j)+ "|"); } System.out.println(); } System.out.println();
 		 */
 
-		System.out.println("Current Vertices");
+		/*System.out.println("Current Vertices");
 		for (int j = 0; j < Main.CrewSize; j++) {
 			System.out.print(evAlgo.getBestCrew().getCrew().get(j).getCurrentVertice() + "|");
 

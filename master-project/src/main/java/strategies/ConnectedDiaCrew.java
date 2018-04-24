@@ -1,6 +1,8 @@
-package model;
+package strategies;
 
 import application.Main;
+import model.ConnectedFireFighter;
+import model.ConnectedFireFighterCrew;
 
 public class ConnectedDiaCrew extends ConnectedFireFighterCrew{
 	private final int size = 16;
@@ -21,7 +23,7 @@ public class ConnectedDiaCrew extends ConnectedFireFighterCrew{
 				crew.add(fighter);
 			}
 			
-			//set left neighbour
+			//set left neighbour -- TODO:falsch!!!
 			for(int i = 1; i < crew.size(); i++) {
 				crew.get(i).setLeftNeighbour(crew.get(i-1));
 			}

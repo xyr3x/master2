@@ -46,14 +46,14 @@ public class RootLayoutController {
 
         // Set extension filter
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-                "XML files (*.xml)", "*.xml");
+        		"Txt files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(extFilter);
 
         // Show open file dialog
         File file = fileChooser.showOpenDialog(main.getPrimaryStage());
 
         if (file != null) {
-            main.loadCrewDataFromFile(file);
+            main.loadCrewDataFromFile2(file);
         }
     }
 
@@ -65,7 +65,7 @@ public class RootLayoutController {
     private void handleSave() {
         File CrewFile = main.getCrewFilePath();
         if (CrewFile != null) {
-            main.saveCrewDataToFile(CrewFile);
+            main.saveCrewDataToFile2(CrewFile);
         } else {
             handleSaveAs();
         }
@@ -80,7 +80,7 @@ public class RootLayoutController {
 
         // Set extension filter
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-                "XML files (*.xml)", "*.xml");
+                "Txt files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(extFilter);
 
         // Show save file dialog
@@ -88,10 +88,10 @@ public class RootLayoutController {
 
         if (file != null) {
             // Make sure it has the correct extension
-            if (!file.getPath().endsWith(".xml")) {
-                file = new File(file.getPath() + ".xml");
+            if (!file.getPath().endsWith(".txt")) {
+                file = new File(file.getPath() + ".txt");
             }
-            main.saveCrewDataToFile(file);
+            main.saveCrewDataToFile2(file);
         }
     }
 

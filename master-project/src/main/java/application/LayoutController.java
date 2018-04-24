@@ -68,8 +68,6 @@ public class LayoutController {
 	private AnimationTimer drawLoop;
 	private List<Rectangle> grid = new ArrayList<Rectangle>();
 
-	
-
 	public LayoutController() {
 	}
 
@@ -85,7 +83,7 @@ public class LayoutController {
 				System.out.println(Main.crewBoxIndex);
 			}
 		});
-		
+
 		GridBox.setItems(FXCollections.observableArrayList("Infinite Grid", "Bounded Grid"));
 		GridBox.getSelectionModel().selectFirst();
 		GridBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
@@ -94,7 +92,7 @@ public class LayoutController {
 				Main.gridBoxIndex = new_value.intValue();
 			}
 		});
-		
+
 		StrategyBox.setItems(FXCollections.observableArrayList("None", "Diamond Crew"));
 		StrategyBox.getSelectionModel().selectFirst();
 		StrategyBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
@@ -103,7 +101,7 @@ public class LayoutController {
 				Main.strategyBoxIndex = new_value.intValue();
 			}
 		});
-		
+
 	}
 
 	private void startAlgo() {
@@ -168,6 +166,90 @@ public class LayoutController {
 			FitnessLabel.setText(Integer.toString(shownCrew.getFitness()));
 			GenerationLabel.setText(Integer.toString(shownCrew.getGeneration()));
 		}
+
+	}
+
+	@FXML
+	private void handleButtonLastStep() {
+		// init drawing if needed
+		if (!gridInit) {
+			gridInit = true;
+			initalizeDrawing();
+		}
+
+		// if timestep 0, do nothing
+		if (timestep == 0) {
+			return;
+		}
+
+		// else draw last timestep
+		timestep = timestep - 1;
+		// decide between crewBoxIndex
+		// random crew
+		if (Main.crewBoxIndex == 0) {
+			FireFighterCrew shownCrew = evAlgo.getBestCrew();
+			drawCrewTimeStep(shownCrew);
+			CrewLabel.setText(Integer.toString(shownCrew.getID()));
+			FitnessLabel.setText(Integer.toString(shownCrew.getFitness()));
+			GenerationLabel.setText(Integer.toString(shownCrew.getGeneration()));
+		}
+
+		// connected crew
+		if (Main.crewBoxIndex == 1) {
+			ConnectedFireFighterCrew shownCrew = evAlgoConnected.getBestCrew();
+			drawCrewConnectedTimeStep(shownCrew);
+			CrewLabel.setText(Integer.toString(shownCrew.getID()));
+			FitnessLabel.setText(Integer.toString(shownCrew.getFitness()));
+			GenerationLabel.setText(Integer.toString(shownCrew.getGeneration()));
+
+		}
+
+	}
+
+	@FXML
+	private void handleButtonNextStep() {
+		// init drawing if needed
+		if (!gridInit) {
+			gridInit = true;
+			initalizeDrawing();
+		}
+
+		// if timestep 0, do nothing
+		if (timestep == Main.TimeInterval - 1) {
+			return;
+		}
+
+		// else draw last timestep
+		timestep = timestep + 1;
+		// decide between crewBoxIndex
+		// random crew
+		if (Main.crewBoxIndex == 0) {
+			FireFighterCrew shownCrew = evAlgo.getBestCrew();
+			drawCrewTimeStep(shownCrew);
+			CrewLabel.setText(Integer.toString(shownCrew.getID()));
+			FitnessLabel.setText(Integer.toString(shownCrew.getFitness()));
+			GenerationLabel.setText(Integer.toString(shownCrew.getGeneration()));
+		}
+
+		// connected crew
+		if (Main.crewBoxIndex == 1) {
+			ConnectedFireFighterCrew shownCrew = evAlgoConnected.getBestCrew();
+			drawCrewConnectedTimeStep(shownCrew);
+			CrewLabel.setText(Integer.toString(shownCrew.getID()));
+			FitnessLabel.setText(Integer.toString(shownCrew.getFitness()));
+			GenerationLabel.setText(Integer.toString(shownCrew.getGeneration()));
+		}
+
+	}
+
+	@FXML
+	private void handleButtonResume() {
+		drawLoop.start();
+	}
+
+	@FXML
+	private void handleButtonPause() {
+		drawLoop.stop();
 
 	}
 
@@ -242,6 +324,11 @@ public class LayoutController {
 			timestep = timestep + 1;
 		}
 
+		drawCrewConnectedTimeStep(crew);
+
+	}
+
+	private void drawCrewConnectedTimeStep(ConnectedFireFighterCrew crew) {
 		// draw every Timestep
 		// set all rectangles to red
 		for (int i = 0; i < grid.size(); i++) {
@@ -261,7 +348,6 @@ public class LayoutController {
 		for (int i = 0; i < Main.CrewSize; i++) {
 			grid.get(crew.getDefendedVerticesIndex(timestep, i)).setFill(Color.BLACK);
 		}
-
 	}
 
 	private void draw(final FireFighterCrew crew) {
@@ -311,6 +397,11 @@ public class LayoutController {
 			timestep = timestep + 1;
 		}
 
+		drawCrewTimeStep(crew);
+
+	}
+
+	private void drawCrewTimeStep(FireFighterCrew crew) {
 		// draw every Timestep
 		// set all rectangles to red
 		for (int i = 0; i < grid.size(); i++) {
@@ -330,7 +421,6 @@ public class LayoutController {
 		for (int i = 0; i < Main.CrewSize; i++) {
 			grid.get(crew.getDefendedVerticesIndex(timestep, i)).setFill(Color.BLACK);
 		}
-
 	}
 
 	// getter and setter
