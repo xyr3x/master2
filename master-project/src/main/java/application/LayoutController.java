@@ -154,7 +154,7 @@ public class LayoutController {
 			FireFighterCrew shownCrew = evAlgo.getBestCrew();
 			draw(shownCrew);
 			CrewLabel.setText(Integer.toString(shownCrew.getID()));
-			FitnessLabel.setText(Integer.toString(shownCrew.getFitness()));
+			FitnessLabel.setText(Integer.toString(shownCrew.getMaxNonBurningVertices()));
 			GenerationLabel.setText(Integer.toString(shownCrew.getGeneration()));
 		}
 
@@ -163,7 +163,7 @@ public class LayoutController {
 			ConnectedFireFighterCrew shownCrew = evAlgoConnected.getBestCrew();
 			drawConnected(shownCrew);
 			CrewLabel.setText(Integer.toString(shownCrew.getID()));
-			FitnessLabel.setText(Integer.toString(shownCrew.getFitness()));
+			FitnessLabel.setText(Integer.toString(shownCrew.getMaxNonBurningVertices()));
 			GenerationLabel.setText(Integer.toString(shownCrew.getGeneration()));
 		}
 
@@ -176,7 +176,7 @@ public class LayoutController {
 			gridInit = true;
 			initalizeDrawing();
 		}
-
+		
 		// if timestep 0, do nothing
 		if (timestep == 0) {
 			return;
@@ -184,13 +184,14 @@ public class LayoutController {
 
 		// else draw last timestep
 		timestep = timestep - 1;
+		TimeStepLabel.setText(Integer.toString(timestep));
 		// decide between crewBoxIndex
 		// random crew
 		if (Main.crewBoxIndex == 0) {
 			FireFighterCrew shownCrew = evAlgo.getBestCrew();
 			drawCrewTimeStep(shownCrew);
 			CrewLabel.setText(Integer.toString(shownCrew.getID()));
-			FitnessLabel.setText(Integer.toString(shownCrew.getFitness()));
+			FitnessLabel.setText(Integer.toString(shownCrew.getMaxNonBurningVertices()));
 			GenerationLabel.setText(Integer.toString(shownCrew.getGeneration()));
 		}
 
@@ -199,7 +200,7 @@ public class LayoutController {
 			ConnectedFireFighterCrew shownCrew = evAlgoConnected.getBestCrew();
 			drawCrewConnectedTimeStep(shownCrew);
 			CrewLabel.setText(Integer.toString(shownCrew.getID()));
-			FitnessLabel.setText(Integer.toString(shownCrew.getFitness()));
+			FitnessLabel.setText(Integer.toString(shownCrew.getMaxNonBurningVertices()));
 			GenerationLabel.setText(Integer.toString(shownCrew.getGeneration()));
 
 		}
@@ -213,21 +214,22 @@ public class LayoutController {
 			gridInit = true;
 			initalizeDrawing();
 		}
-
-		// if timestep 0, do nothing
-		if (timestep == Main.TimeInterval - 1) {
+		
+		// if last timestep , do nothing
+		if (timestep == Main.TimeInterval) {
 			return;
 		}
 
 		// else draw last timestep
-		timestep = timestep + 1;
+		
+		TimeStepLabel.setText(Integer.toString(timestep));
 		// decide between crewBoxIndex
 		// random crew
 		if (Main.crewBoxIndex == 0) {
 			FireFighterCrew shownCrew = evAlgo.getBestCrew();
 			drawCrewTimeStep(shownCrew);
 			CrewLabel.setText(Integer.toString(shownCrew.getID()));
-			FitnessLabel.setText(Integer.toString(shownCrew.getFitness()));
+			FitnessLabel.setText(Integer.toString(shownCrew.getMaxNonBurningVertices()));
 			GenerationLabel.setText(Integer.toString(shownCrew.getGeneration()));
 		}
 
@@ -236,9 +238,11 @@ public class LayoutController {
 			ConnectedFireFighterCrew shownCrew = evAlgoConnected.getBestCrew();
 			drawCrewConnectedTimeStep(shownCrew);
 			CrewLabel.setText(Integer.toString(shownCrew.getID()));
-			FitnessLabel.setText(Integer.toString(shownCrew.getFitness()));
+			FitnessLabel.setText(Integer.toString(shownCrew.getMaxNonBurningVertices()));
 			GenerationLabel.setText(Integer.toString(shownCrew.getGeneration()));
 		}
+		
+		timestep = timestep + 1;
 
 	}
 

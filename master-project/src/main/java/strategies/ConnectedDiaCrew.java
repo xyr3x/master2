@@ -10,6 +10,7 @@ public class ConnectedDiaCrew extends ConnectedFireFighterCrew{
 	
 	//constructs the crew which builds a diamond with size many fighters
 	public void initialize() {
+		
 		Fitness = Main.CrewSize;
 		generation = 0;
 		
@@ -33,10 +34,11 @@ public class ConnectedDiaCrew extends ConnectedFireFighterCrew{
 			for(int i = 0; i < ((crew.size() / 2) + 1); i++) {
 				crew.get(i).setStartVertice(start + i);
 				crew.get(i).setCurrentVertice(crew.get(i).getStartVertice());
+				
 			}
 			//second half
 			for(int i = ((crew.size() / 2) + 1); i < crew.size(); i++) {
-				crew.get(i).setStartVertice(start + 1 + i - (crew.size() / 2) + 1);
+				crew.get(i).setStartVertice(start - Main.GridLength + crew.size() - i);				
 				crew.get(i).setCurrentVertice(crew.get(i).getStartVertice());	
 			}
 			

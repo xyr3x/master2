@@ -192,7 +192,7 @@ public class SaveFunctions {
 				int indexDummy = 0;
 				for(int i = 0; i < Main.TimeInterval; i++) {
 					for(int j = 0; j < (Main.GridLength * Main.GridLength + 100); j++) {
-						crew.setDefendedVerticesIndex(Integer.parseInt(dummy[indexDummy]), i, j);
+						crew.setNonBurningVerticesIndex(Integer.parseInt(dummy[indexDummy]), i, j);
 						indexDummy++;
 					}
 				}

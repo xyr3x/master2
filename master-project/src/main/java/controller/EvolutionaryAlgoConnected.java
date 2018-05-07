@@ -13,6 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import application.Main;
 import model.*;
 import strategies.ConnectedDiaCrew;
+import strategies.Strategies;
 
 public class EvolutionaryAlgoConnected {
 	private List<ConnectedFireFighterCrew> population = new ArrayList<ConnectedFireFighterCrew>();
@@ -20,7 +21,7 @@ public class EvolutionaryAlgoConnected {
 
 	private int maxFitness = 0;
 	// private int optimum = Main.CrewSize + 100;
-	private int optimum = 15;
+	private int optimum = 21;
 	private ConnectedFireFighterCrew bestCrew = new ConnectedFireFighterCrew();
 	private int[] bestSetUp = new int[Main.CrewSize];
 
@@ -41,35 +42,29 @@ public class EvolutionaryAlgoConnected {
 		int counter = 0;
 		population.clear();
 
-		// check main for data
-		if (main.getConnectedCrewData().size() == Main.CrewSize) {
-			for (ConnectedFireFighterCrew k : main.getConnectedCrewData()) {
-				population.add(k);
-			}
-		}
-		// DIamond Strategy
-		else if (Main.strategyBoxIndex == 1) {
-			// 1. Initialisierung
-			initialize();
-			for (int k = 0; k < 5; k++) {
-				// remove some elements
-				population.remove(Main.PopulationSize - (k + 1));
+		/*
+		 * // check main for data if (main.getConnectedCrewData().size() ==
+		 * Main.CrewSize) { for (ConnectedFireFighterCrew k :
+		 * main.getConnectedCrewData()) { population.add(k); } } // DIamond Strategy
+		 * else if (Main.strategyBoxIndex == 1) { // 1. Initialisierung initialize();
+		 * for (int k = 0; k < 5; k++) { // remove some elements
+		 * population.remove(Main.PopulationSize - (k + 1));
+		 * 
+		 * } for (int k = 0; k < 5; k++) { // construct dia crews ConnectedDiaCrew
+		 * diaCrew = new ConnectedDiaCrew(); diaCrew.initialize();
+		 * diaCrew.setNewCrew(true); population.add(diaCrew);
+		 * 
+		 * }
+		 * 
+		 * }
+		 * 
+		 * else { // 1. Initialisierung initialize();
+		 * System.out.println("Init finished"); }
+		 */
 
-			}
-			for (int k = 0; k < 5; k++) {
-				// construct dia crews
-				ConnectedDiaCrew diaCrew = new ConnectedDiaCrew();
-				diaCrew.initialize();
-				population.add(diaCrew);
-			}
-
-		}
-
-		else {
-			// 1. Initialisierung
-			initialize();
-			System.out.println("Init finished");
-		}
+		// 1. Initialisierung
+		initialize();
+		System.out.println("Init finished");
 
 		// 2. Evaluation
 		for (int i = 0; i < population.size(); i++) {
@@ -87,6 +82,7 @@ public class EvolutionaryAlgoConnected {
 			System.out.println("Schleife Nr: " + counter);
 
 			// 3.1 Selektion
+			//System.out.println("Selektion");
 			Collections.sort(population);
 			for (int i = 0; i < Main.RecombinationSize; i++) {
 				// von hinten Elemente rauswerfen, um Indexshift zu vermeiden
@@ -94,6 +90,7 @@ public class EvolutionaryAlgoConnected {
 			}
 
 			// 3.2. Rekombination //TODO: WICHTIG!! �berarbeiten
+			//System.out.println("Rekombination");
 			for (int i = 0; i < Main.RecombinationSize; i++) {
 				int parent1 = Main.rnd.nextInt(Main.PopulationSize - Main.RecombinationSize);
 				int parent2 = Main.rnd.nextInt(Main.PopulationSize - Main.RecombinationSize);
@@ -152,6 +149,7 @@ public class EvolutionaryAlgoConnected {
 			}
 
 			// 3.3 Mutation
+			//System.out.println("Mutation");
 			for (ConnectedFireFighterCrew k : population) {
 				if (Main.rnd.nextInt(100) < Main.MutationProbability) {
 
@@ -174,19 +172,43 @@ public class EvolutionaryAlgoConnected {
 			}
 
 			// 3.4 Evaluation
-			for (int i = 0; i < population.size(); i++) {
-				if (population.get(i).isChanged() || population.get(i).isNewCrew()) {
+			//System.out.println("Evaluation");
+			for (int i = 0; i < Main.PopulationSize; i++) {
+				// System.out.println(i);
+				if (population.get(i).isChanged() ||population.get(i).isNewCrew()) {
 					calculateFitness(population.get(i));
+					// System.out.println("Test1 : " );
 					if (population.get(i).getMaxNonBurningVertices() > maxFitness) {
 						// maxFitness = population.get(i).getFitness();
 						maxFitness = population.get(i).getMaxNonBurningVertices();
 						bestCrew = population.get(i);
+						System.out.println("test2");
 
 					}
 				}
-
 			}
 			System.out.println("Fitness: " + maxFitness);
+
+			
+			/*
+			// 3.4 Evaluation
+			System.out.println("Evaluation");
+			for (ConnectedFireFighterCrew i : population) {
+				// System.out.println(i);
+				if (i.isChanged() || i.isNewCrew()) {
+					calculateFitness(i);
+					// System.out.println("Test1 : " );
+					if (i.getMaxNonBurningVertices() > maxFitness) {
+						// maxFitness = population.get(i).getFitness();
+						maxFitness = i.getMaxNonBurningVertices();
+						bestCrew = i;
+						System.out.println("test2");
+
+					}
+				}
+			}
+			System.out.println("Fitness: " + maxFitness);
+		*/
 		}
 		Collections.sort(population);
 		// save in Main
@@ -199,13 +221,38 @@ public class EvolutionaryAlgoConnected {
 
 	}
 
-	public void initialize() {
+	public boolean initialize() {
 		int[] temp = new int[Main.PopulationSize];
 		int tempVertice = 0;
+		int numberOfOtherCrews = 0;
+		Strategies strat = new Strategies();
+
+		// construct other crews by strategies
+		if (Main.strategyBoxIndex == 1) {
+			numberOfOtherCrews = 5;
+			System.out.println("DiaCrew - " + numberOfOtherCrews);
+			// construct other crews
+			for (int i = 0; i < numberOfOtherCrews; i++) {
+				ConnectedFireFighterCrew crew = new ConnectedFireFighterCrew();
+				for (int j = 0; j < Main.CrewSize; j++) {
+					ConnectedFireFighter fighter = new ConnectedFireFighter();
+					
+					int[] chain = new int[Main.TimeInterval];
+					fighter.setChain(chain);
+					fighter.setStartVertice(0);
+					
+					
+					crew.getCrew().add(fighter);
+				}
+				strat.diaCrew(crew);
+				population.add(crew);
+				
+			}
+		}
 
 		// intialize every individuum of the population
 
-		PopulationLoop: for (int i = 0; i < Main.PopulationSize; i++) {
+		PopulationLoop: for (int i = 0; i < Main.PopulationSize - numberOfOtherCrews; i++) {
 			ConnectedFireFighterCrew crew = new ConnectedFireFighterCrew();
 			int[] startVertices = new int[Main.CrewSize];
 
@@ -278,6 +325,7 @@ public class EvolutionaryAlgoConnected {
 							tempFighter.setPositionIndex(2, 0);
 							startVertices[j] = tempFighter.getStartVertice();
 							finished = true;
+							counter = 0;
 						}
 						// force restart
 						else {
@@ -297,6 +345,7 @@ public class EvolutionaryAlgoConnected {
 							tempFighter.setPositionIndex(3, 0);
 							startVertices[j] = tempFighter.getStartVertice();
 							finished = true;
+							counter = 0;
 						}
 						// force restart
 						else {
@@ -317,6 +366,7 @@ public class EvolutionaryAlgoConnected {
 							tempFighter.setPositionIndex(4, 0);
 							startVertices[j] = tempFighter.getStartVertice();
 							finished = true;
+							counter = 0;
 						}
 						// force restart
 						else {
@@ -337,6 +387,7 @@ public class EvolutionaryAlgoConnected {
 							tempFighter.setPositionIndex(5, 0);
 							startVertices[j] = tempFighter.getStartVertice();
 							finished = true;
+							counter = 0;
 						}
 						// force restart
 						else {
@@ -357,6 +408,7 @@ public class EvolutionaryAlgoConnected {
 							tempFighter.setPositionIndex(6, 0);
 							startVertices[j] = tempFighter.getStartVertice();
 							finished = true;
+							counter = 0;
 						}
 						// force restart
 						else {
@@ -376,6 +428,7 @@ public class EvolutionaryAlgoConnected {
 							tempFighter.setPositionIndex(7, 0);
 							startVertices[j] = tempFighter.getStartVertice();
 							finished = true;
+							counter = 0;
 						}
 						// force restart
 						else {
@@ -396,6 +449,7 @@ public class EvolutionaryAlgoConnected {
 							tempFighter.setPositionIndex(8, 0);
 							startVertices[j] = tempFighter.getStartVertice();
 							finished = true;
+							counter = 0;
 						}
 						// force restart
 						else {
@@ -447,6 +501,7 @@ public class EvolutionaryAlgoConnected {
 			population.add(crew);
 
 		}
+		return true;
 
 	}
 
