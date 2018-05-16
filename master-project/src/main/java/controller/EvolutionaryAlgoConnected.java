@@ -19,9 +19,9 @@ public class EvolutionaryAlgoConnected {
 	private List<ConnectedFireFighterCrew> population = new ArrayList<ConnectedFireFighterCrew>();
 	private boolean fighterAtBorder = false;
 
-	private int maxFitness = 0;
+	
 	// private int optimum = Main.CrewSize + 100;
-	private int optimum = 21;
+	private int optimum = 27;
 	private ConnectedFireFighterCrew bestCrew = new ConnectedFireFighterCrew();
 	private int[] bestSetUp = new int[Main.CrewSize];
 
@@ -37,6 +37,7 @@ public class EvolutionaryAlgoConnected {
 	}
 
 	public ConnectedFireFighterCrew evAlgo() {
+		int maxFitness = 0;
 		System.out.println("Start");
 		// stuff
 		int counter = 0;
@@ -69,7 +70,7 @@ public class EvolutionaryAlgoConnected {
 		// 2. Evaluation
 		for (int i = 0; i < population.size(); i++) {
 			calculateFitness(population.get(i));
-			if (population.get(i).getFitness() > maxFitness) {
+			if (population.get(i).getMaxNonBurningVertices() > maxFitness) {
 				// maxFitness = population.get(i).getFitness();
 				maxFitness = population.get(i).getMaxNonBurningVertices();
 			}
@@ -172,7 +173,7 @@ public class EvolutionaryAlgoConnected {
 			}
 
 			// 3.4 Evaluation
-			//System.out.println("Evaluation");
+			System.out.println("Evaluation");
 			for (int i = 0; i < Main.PopulationSize; i++) {
 				// System.out.println(i);
 				if (population.get(i).isChanged() ||population.get(i).isNewCrew()) {

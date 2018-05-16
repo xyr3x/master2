@@ -1,6 +1,7 @@
 package model;
 
 import application.Main;
+import controller.EvolutionaryAlgoConnected;
 import controller.EvolutionaryAlgoConnected2;
 
 public class tester {
@@ -9,14 +10,10 @@ public class tester {
 		// TODO Auto-generated method stub
 		System.out.println("Tester");
 
-		EvolutionaryAlgoConnected2 evAlgo = new EvolutionaryAlgoConnected2();
-		StringBuilder SB = new StringBuilder();
-		
-		String result = (new StringBuilder()).append("test").append("--Hello").toString();
-		String result2 = SB.append("Test2").append("hello").toString();
-		System.out.println(result);
-		System.out.println(result2);
-		//evAlgo.evAlgo();
+		EvolutionaryAlgoConnected evAlgo = new EvolutionaryAlgoConnected();
+		Main.strategyBoxIndex = 1;
+
+		// evAlgo.evAlgo();
 
 		/*
 		 * int parent1 = 2; int parent2 = 3; int crossOver =
@@ -154,53 +151,51 @@ public class tester {
 		 * j)+ "|"); } System.out.println(); } System.out.println();
 		 */
 
-		/*System.out.println("Current Vertices");
-		for (int j = 0; j < Main.CrewSize; j++) {
-			System.out.print(evAlgo.getBestCrew().getCrew().get(j).getCurrentVertice() + "|");
-
-		}
-		System.out.println();
-		System.out.println("Start Vertices");
-		for (int j = 0; j < Main.CrewSize; j++) {
-			System.out.print(evAlgo.getBestCrew().getCrew().get(j).getStartVertice() + "|");
-
-		}
-		System.out.println();
-
-		System.out.println("Defended Vertices");
-		for (int i = 0; i < Main.TimeInterval; i++) {
-			for (int j = 0; j < Main.CrewSize; j++) {
-				System.out.print(evAlgo.getBestCrew().getDefendedVerticesIndex(i, j) + "|");
-
-			}
-			System.out.println();
-		}
-		System.out.println();
-		System.out.println("Non Burning Vertices");
-		for (int i = 0; i < Main.TimeInterval; i++) {
-			for (int j = 0; j < (Main.CrewSize * Main.CrewSize); j++) {
-				System.out.print(evAlgo.getBestCrew().getNonBurningVerticesIndex(i, j) + "|");
-			}
-			System.out.println();
-		}
-		System.out.println();
-
-		for (int i = 0; i < Main.CrewSize; i++) {
-			System.out.print(evAlgo.getBestSetUp()[i] + "|");
-		}
-
 		/*
-		 * evAlgo.initialize();
+		 * System.out.println("Current Vertices"); for (int j = 0; j < Main.CrewSize;
+		 * j++) {
+		 * System.out.print(evAlgo.getBestCrew().getCrew().get(j).getCurrentVertice() +
+		 * "|");
 		 * 
-		 * for(int i = 0; i < Main.PopulationSize; i++) {
+		 * } System.out.println(); System.out.println("Start Vertices"); for (int j = 0;
+		 * j < Main.CrewSize; j++) {
+		 * System.out.print(evAlgo.getBestCrew().getCrew().get(j).getStartVertice() +
+		 * "|");
 		 * 
-		 * System.out.print("Crew " + i + ": "); for (int j = 0; j < Main.CrewSize; j++)
-		 * { System.out.print(evAlgo.getPopulation().get(i).getCrew().get(j).
-		 * getStartVertice() + "|");
+		 * } System.out.println();
 		 * 
-		 * } System.out.println(); }
+		 * System.out.println("Defended Vertices"); for (int i = 0; i <
+		 * Main.TimeInterval; i++) { for (int j = 0; j < Main.CrewSize; j++) {
+		 * System.out.print(evAlgo.getBestCrew().getDefendedVerticesIndex(i, j) + "|");
+		 * 
+		 * } System.out.println(); } System.out.println();
+		 * System.out.println("Non Burning Vertices"); for (int i = 0; i <
+		 * Main.TimeInterval; i++) { for (int j = 0; j < (Main.CrewSize *
+		 * Main.CrewSize); j++) {
+		 * System.out.print(evAlgo.getBestCrew().getNonBurningVerticesIndex(i, j) +
+		 * "|"); } System.out.println(); } System.out.println();
+		 * 
+		 * for (int i = 0; i < Main.CrewSize; i++) {
+		 * System.out.print(evAlgo.getBestSetUp()[i] + "|"); }
 		 */
 
+		evAlgo.initialize();
+
+		for (int i = 0; i < Main.PopulationSize; i++) {
+
+			System.out.print("Crew " + i + ": ");
+			for (int j = 0; j < Main.CrewSize; j++) {
+				System.out.print(evAlgo.getPopulation().get(i).getCrew().get(j).getStartVertice() + "|");
+
+			}
+			System.out.println();
+		}
+		
+		for(int i = 0; i < Main.PopulationSize; i++) {
+			evAlgo.calculateFitness(evAlgo.getPopulation().get(i));
+			System.out.println(i + " Fitness: " + evAlgo.getPopulation().get(i).getMaxNonBurningVertices());
+		}
+		
 	}
 
 }

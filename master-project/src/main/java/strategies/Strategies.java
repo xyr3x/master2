@@ -15,6 +15,7 @@ public class Strategies {
 
 	// connected diaCrew
 	public void diaCrew(ConnectedFireFighterCrew crew) {
+		System.out.println("strat");
 		int fitness = Main.CrewSize;
 		int generation = 0;
 		crew.setFitness(fitness);
