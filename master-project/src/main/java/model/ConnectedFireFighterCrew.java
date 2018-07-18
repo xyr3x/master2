@@ -20,6 +20,8 @@ public class ConnectedFireFighterCrew implements Comparable<ConnectedFireFighter
 	// number of non burning vertices
 	protected int Fitness = Main.CrewSize;
 	protected int maxNonBurningVertices;
+	protected int averageNonBurningVertices;
+	private int numOfGoodSteps;
 	protected List<ConnectedFireFighter> crew = new ArrayList<ConnectedFireFighter>();
 	protected int bestTimeStep;
 	protected int generation;
@@ -133,6 +135,22 @@ public class ConnectedFireFighterCrew implements Comparable<ConnectedFireFighter
 
 	public void setGeneration(int generation) {
 		this.generation = generation;
+	}
+		
+	public int getAverageNonBurningVertices() {
+		return averageNonBurningVertices;
+	}
+
+	public void setAverageNonBurningVertices(int averageNonBurningVertices) {
+		this.averageNonBurningVertices = averageNonBurningVertices;
+	}
+
+	public int getNumOfGoodSteps() {
+		return numOfGoodSteps;
+	}
+
+	public void setNumOfGoodSteps(int numOfGoodSteps) {
+		this.numOfGoodSteps = numOfGoodSteps;
 	}
 
 	// shifts for the grid

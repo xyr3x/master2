@@ -21,7 +21,8 @@ public class EvolutionaryAlgoConnected {
 
 	
 	// private int optimum = Main.CrewSize + 100;
-	private int optimum = 27;
+	private int optimum = 15;
+	private int compareValue = 5;
 	private ConnectedFireFighterCrew bestCrew = new ConnectedFireFighterCrew();
 	private int[] bestSetUp = new int[Main.CrewSize];
 
@@ -70,9 +71,23 @@ public class EvolutionaryAlgoConnected {
 		// 2. Evaluation
 		for (int i = 0; i < population.size(); i++) {
 			calculateFitness(population.get(i));
-			if (population.get(i).getMaxNonBurningVertices() > maxFitness) {
+			//one good step optimization
+			if (Main.optimizeIndex == 0 && population.get(i).getMaxNonBurningVertices() > maxFitness) {
 				// maxFitness = population.get(i).getFitness();
 				maxFitness = population.get(i).getMaxNonBurningVertices();
+				bestCrew = population.get(i);
+			}
+			//average good step optimization
+			if (Main.optimizeIndex == 1 && population.get(i).getAverageNonBurningVertices() > maxFitness) {
+				// maxFitness = population.get(i).getFitness();
+				maxFitness = population.get(i).getAverageNonBurningVertices();
+				bestCrew = population.get(i);
+			}
+			//num of good steps optimization
+			if (Main.optimizeIndex == 2 && population.get(i).getNumOfGoodSteps() > maxFitness) {
+				// maxFitness = population.get(i).getFitness();
+				maxFitness = population.get(i).getNumOfGoodSteps();
+				bestCrew = population.get(i);
 			}
 		}
 		System.out.println("First Value: " + maxFitness);
@@ -179,12 +194,23 @@ public class EvolutionaryAlgoConnected {
 				if (population.get(i).isChanged() ||population.get(i).isNewCrew()) {
 					calculateFitness(population.get(i));
 					// System.out.println("Test1 : " );
-					if (population.get(i).getMaxNonBurningVertices() > maxFitness) {
+					//one good step optimization
+					if (Main.optimizeIndex == 0 && population.get(i).getMaxNonBurningVertices() > maxFitness) {
 						// maxFitness = population.get(i).getFitness();
 						maxFitness = population.get(i).getMaxNonBurningVertices();
 						bestCrew = population.get(i);
-						System.out.println("test2");
-
+					}
+					//average good step optimization
+					if (Main.optimizeIndex == 1 && population.get(i).getAverageNonBurningVertices() > maxFitness) {
+						// maxFitness = population.get(i).getFitness();
+						maxFitness = population.get(i).getAverageNonBurningVertices();
+						bestCrew = population.get(i);
+					}
+					//num of good steps optimization
+					if (Main.optimizeIndex == 2 && population.get(i).getNumOfGoodSteps() > maxFitness) {
+						// maxFitness = population.get(i).getFitness();
+						maxFitness = population.get(i).getNumOfGoodSteps();
+						bestCrew = population.get(i);
 					}
 				}
 			}
@@ -513,7 +539,8 @@ public class EvolutionaryAlgoConnected {
 		// defended vertices
 		List<Integer> defendedVertices = new ArrayList<Integer>();
 		int tempFitness = crew.getFitness();
-
+		int fitSum = 0;
+		int goodSteps = 0;
 		// move fighters (switch case unterscheidung), expand fire
 		int tempDirection, currentVertice;
 		// for every time step
@@ -1093,6 +1120,10 @@ public class EvolutionaryAlgoConnected {
 
 			}
 			crew.setMaxNonBurningVertices(fitnessTest);
+			fitSum += fitnessTest;
+			if (fitnessTest >= compareValue) {
+				goodSteps++;
+			}
 			/*
 			 * if (tempFitness > (Main.CrewSize + fitnessTest)) {
 			 * System.out.println("-----------------Error------------------"); }
@@ -1100,6 +1131,9 @@ public class EvolutionaryAlgoConnected {
 
 			defendedVertices.clear();
 		}
+		
+		crew.setAverageNonBurningVertices(fitSum / Main.TimeInterval);
+		crew.setNumOfGoodSteps(goodSteps);
 		nonBurningVertices.clear();
 		crew.setChanged(false);
 		crew.setNewCrew(false);
@@ -2404,5 +2438,23 @@ public class EvolutionaryAlgoConnected {
 	public void setBestSetUp(int[] bestSetUp) {
 		this.bestSetUp = bestSetUp;
 	}
+
+	public int getOptimum() {
+		return optimum;
+	}
+
+	public void setOptimum(int optimum) {
+		this.optimum = optimum;
+	}
+
+	public int getCompareValue() {
+		return compareValue;
+	}
+
+	public void setCompareValue(int compareValue) {
+		this.compareValue = compareValue;
+	}
+	
+	
 
 }

@@ -46,6 +46,7 @@ public class Main extends Application {
 	public static int crewBoxIndex = 0;
 	public static int strategyBoxIndex = 0;
 	public static int gridBoxIndex = 0;
+	public static int optimizeIndex = 0;
 
 	public static int CrewSize = 16;
 	public static int PopulationSize = 100;
@@ -122,6 +123,7 @@ public class Main extends Application {
 			controller.setEvAlgoConnected(evAlgoConnected);
 			evAlgo.setMain(this);
 			evAlgoConnected.setMain(this);
+			
 
 		} catch (IOException e) {
 			e.printStackTrace();

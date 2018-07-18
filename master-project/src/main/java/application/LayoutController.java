@@ -17,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -54,6 +55,14 @@ public class LayoutController {
 	private ChoiceBox<String> CrewBox;
 	@FXML
 	private ChoiceBox<String> StrategyBox;
+	@FXML
+	private ChoiceBox<String> OptimizeBox;
+	@FXML
+	private TextField OptimumTextField;
+	@FXML
+	private TextField CompareTextField;
+	
+
 
 	private int rectangleSize = 8;
 	private int paneHeight = Main.GridLength * (rectangleSize + 1) - 1;
@@ -80,6 +89,15 @@ public class LayoutController {
 			public void changed(ObservableValue<? extends Number> ov, Number value, Number new_value) {
 				// TODO Auto-generated method stub
 				Main.crewBoxIndex = new_value.intValue();
+				if (new_value.intValue() == 0) {
+					setOptimumTextField();
+					CompareTextField.setText(""	);
+				}
+				else {
+					setOptimumConnectedTextField();
+					setCompareTextField();
+				}
+				
 				System.out.println(Main.crewBoxIndex);
 			}
 		});
@@ -101,7 +119,16 @@ public class LayoutController {
 				Main.strategyBoxIndex = new_value.intValue();
 			}
 		});
-
+		
+		OptimizeBox.setItems(FXCollections.observableArrayList("One Step Optimization", "Average Optimization", "Number of good Steps Optimization"));
+		OptimizeBox.getSelectionModel().selectFirst();
+		OptimizeBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+			public void changed(ObservableValue<? extends Number> ov, Number value, Number new_value) {
+				// TODO Auto-generated method stub
+				Main.optimizeIndex = new_value.intValue();
+			}
+		});
+		
 	}
 
 	private void startAlgo() {
@@ -125,6 +152,34 @@ public class LayoutController {
 		service.start();
 	}
 
+	@FXML
+	private void handleButtonSetValues() {
+		String optimumString = OptimumTextField.getText();
+		int optimum = isIntegerValue(optimumString);
+		if (optimum >= 0) {
+			if(Main.crewBoxIndex == 0) {
+				evAlgo.setOptimum(optimum);
+			}
+			else {
+				evAlgoConnected.setOptimum(optimum);
+			}
+		}
+		
+		String compareString = CompareTextField.getText();
+		int compare = isIntegerValue(compareString);
+		if (compare >= 0) {
+			if(Main.crewBoxIndex == 0) {
+				
+			}
+			else {
+				evAlgoConnected.setCompareValue(compare);
+			}
+		}
+		
+		
+		
+	}
+	
 	@FXML
 	private void handleButtonCalculate() {
 		System.out.println("test");
@@ -293,7 +348,7 @@ public class LayoutController {
 				double elapsedTime = (now - prevNanos.value) / 1000000000.0;
 
 				// more than 1 second, draw next step
-				if (elapsedTime >= 7.5) {
+				if (elapsedTime >= 1) {
 					prevNanos.value = now;
 					TimeStepLabel.setText(Integer.toString(timestep));
 					drawCrewConnected(crew);
@@ -455,8 +510,36 @@ public class LayoutController {
 	public void setEvAlgoConnected(EvolutionaryAlgoConnected evAlgoConnected) {
 		this.evAlgoConnected = evAlgoConnected;
 	}
+	
+	//set Textfields
+	public void setOptimumConnectedTextField() {		
+		OptimumTextField.setText(Integer.toString(evAlgoConnected.getOptimum()));		
+	}
+	
+	public void setOptimumTextField() {		
+		OptimumTextField.setText(Integer.toString(evAlgo.getOptimum()));		
+	}
+	
+	public void setCompareTextField() {
+		CompareTextField.setText(Integer.toString(evAlgoConnected.getCompareValue()));
+	}
+	
+	//help functions
+	
+	private int isIntegerValue(String str) {
+		try {
+			int result = Integer.parseInt(str);
+			return result;
+		} 
+		catch(Exception e){
+			return -1;
+		}
+	}
+	
 
 }
+
+
 
 class LongValue {
 	public long value;

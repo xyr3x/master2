@@ -796,4 +796,12 @@ public class EvolutionaryAlgo {
 		this.bestCrew = bestCrew;
 	}
 
+	public int getOptimum() {
+		return optimum;
+	}
+	
+	public void setOptimum(int optimum) {
+		this.optimum = optimum;
+	}
+
 }
