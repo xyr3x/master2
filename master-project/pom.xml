@@ -5,7 +5,6 @@
   <groupId>de.moritz.master</groupId>
   <artifactId>master_project</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <packaging>maven-plugin</packaging>
 
   <name>master-project</name>
   <url>http://maven.apache.org</url>
@@ -42,4 +41,81 @@
     	<version>1.1.1</version>
     </dependency>
   </dependencies>
+  
+  
+  <build>
+  
+  	<pluginManagement>
+      <!-- Unterdrückt eine nicht so wichtige Fehlermeldung -->
+      <plugins>
+        <!-- Ignore/Execute plugin execution -->
+        <plugin>
+          <groupId>org.eclipse.m2e</groupId>
+          <artifactId>lifecycle-mapping</artifactId>
+          <version>1.0.0</version>
+          <configuration>
+            <lifecycleMappingMetadata>
+              <pluginExecutions>
+                <!-- copy-dependency plugin -->
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <versionRange>[1.0.0,)</versionRange>
+                    <goals>
+                      <goal>copy-dependencies</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore />
+                  </action>
+                </pluginExecution>
+              </pluginExecutions>
+            </lifecycleMappingMetadata>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    
+  	<plugins>
+  	  <!-- Verändert/Erweitert das default-Manifest: -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <mainClass>application.Main</mainClass>
+              <addClasspath>true</addClasspath>
+              <classpathPrefix>lib/</classpathPrefix>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      <!--
+      Kopiert die verwendeten Bibliotheken nach /target/classes/lib, 
+      wodurch sie automatisch in die erzeugten JARs mit eingebaut werden.
+      Das Manifest muss dann noch um die CLASSPATH-Angabe erweitert werden,
+      das geschieht weiter oben im anderen Plugin.
+      -->     
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/classes/lib</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+  	</plugins>
+  </build>
+  
 </project>

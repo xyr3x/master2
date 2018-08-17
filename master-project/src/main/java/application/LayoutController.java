@@ -1,5 +1,8 @@
 package application;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.security.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import controller.EvolutionaryAlgo;
 import controller.EvolutionaryAlgoConnected;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
@@ -18,6 +22,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -61,6 +66,8 @@ public class LayoutController {
 	private TextField OptimumTextField;
 	@FXML
 	private TextField CompareTextField;
+	@FXML
+	private TextArea ConsoleArea;
 	
 
 
@@ -129,6 +136,21 @@ public class LayoutController {
 			}
 		});
 		
+		
+		OutputStream out = new OutputStream() {
+	        @Override
+	        public void write(int b) throws IOException {
+	            appendText(String.valueOf((char) b));
+	        }
+	    };
+	    System.setOut(new PrintStream(out, true));
+	
+		
+	}
+	
+	
+	public void appendText(String str) {
+	    Platform.runLater(() -> ConsoleArea.appendText(str));
 	}
 
 	private void startAlgo() {
@@ -434,7 +456,7 @@ public class LayoutController {
 		int temp;
 		// draw initial setup
 		for (int i = 0; i < Main.CrewSize; i++) {
-			temp = crew.getCrew().get(i).getCurrentVertice();
+			temp = crew.getCrew().get(i).getStartVertice();
 			grid.get(temp).setFill(Color.BLACK);
 		}
 

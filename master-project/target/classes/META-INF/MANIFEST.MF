@@ -1,5 +1,10 @@
 Manifest-Version: 1.0
 Built-By: Moritz
 Build-Jdk: 9.0.1
+Class-Path: lib/jaxb-api-2.3.0.jar lib/jaxb-impl-2.3.0.jar lib/jaxb-ru
+ ntime-2.3.0.jar lib/jaxb-core-2.3.0.jar lib/txw2-2.3.0.jar lib/istack
+ -commons-runtime-3.0.5.jar lib/stax-ex-1.7.8.jar lib/FastInfoset-1.2.
+ 13.jar lib/activation-1.1.1.jar
+Main-Class: application.Main
 Created-By: Maven Integration for Eclipse
 

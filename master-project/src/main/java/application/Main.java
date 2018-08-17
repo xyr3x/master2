@@ -217,6 +217,7 @@ public class Main extends Application {
 	 * @param file
 	 */
 	public void loadCrewDataFromFile(File file) {
+		System.out.println("Loading...");
 		try {
 			if (crewBoxIndex == 0) {
 				JAXBContext context = JAXBContext.newInstance(CrewWrapper.class);
@@ -241,6 +242,7 @@ public class Main extends Application {
 
 				// Save the file path to the registry.
 				setCrewFilePath(file);
+				System.out.println("Loading finished.");
 			} else if (crewBoxIndex == 1) {
 				JAXBContext context = JAXBContext.newInstance(ConnectedCrewWrapper.class);
 				Unmarshaller um = context.createUnmarshaller();
@@ -272,7 +274,7 @@ public class Main extends Application {
 	 * @param file
 	 */
 	public void loadCrewDataFromFile2(File file) {
-		System.out.println("Test");
+		
 		SaveFunctions sf = new SaveFunctions();
 		try {
 			if (crewBoxIndex == 0) {
@@ -280,7 +282,6 @@ public class Main extends Application {
 				crewData.clear();
 				Main.crewBoxIndex = 0;
 			} else if (crewBoxIndex == 1) {
-				System.out.println("Test1");
 				Main.crewBoxIndex = 1;
 				// clear lists
 				connectedCrewData.clear();
@@ -291,7 +292,6 @@ public class Main extends Application {
 				fileText = stringTester.readFile(file.getAbsolutePath(), charset);
 				
 				int count = stringTester.frequency(fileText, "</ConnectedFireFighterCrew>");
-				System.out.println("Zähler: " + count);
 
 				// split file into single crews
 				String[] fileTextSplit = fileText.split("</ConnectedFireFighterCrew>", 100);
@@ -303,8 +303,6 @@ public class Main extends Application {
 				}
 				// Save the file path to the registry.
 				setCrewFilePath(file);
-				System.out.println("Test2");
-				System.out.println(connectedCrewData.get(10).getID());
 				
 				// set Best crew in evalgo
 				int index = 0;
@@ -313,12 +311,13 @@ public class Main extends Application {
 					if (connectedCrewData.get(i).getMaxNonBurningVertices() > tempFit) {
 						tempFit = connectedCrewData.get(i).getMaxNonBurningVertices();
 						index = i;
-						System.out.println("tempFit:" + tempFit );
 					}
 				}
 				evAlgoConnected.setBestCrew(connectedCrewData.get(index));
 
 			}
+
+			System.out.println("Loading finished.");
 
 		} catch (Exception e) { // catches ANY exception
 			e.printStackTrace();

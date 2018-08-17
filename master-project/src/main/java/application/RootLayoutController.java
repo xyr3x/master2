@@ -53,6 +53,7 @@ public class RootLayoutController {
         File file = fileChooser.showOpenDialog(main.getPrimaryStage());
 
         if (file != null) {
+        	System.out.println("Loading...");
             main.loadCrewDataFromFile2(file);
         }
     }

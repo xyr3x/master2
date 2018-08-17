@@ -23,18 +23,18 @@
    <bottom>
       <HBox prefHeight="60.0" spacing="50.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox spacing="10.0">
+            <VBox prefHeight="62.0" prefWidth="692.0" spacing="10.0">
                <children>
-                  <HBox layoutY="578.0" prefHeight="60.0" prefWidth="601.0" spacing="40.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="578.0">
+                  <HBox layoutY="578.0" prefHeight="60.0" prefWidth="601.0" spacing="5.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="578.0">
                      <children>
                         <Label layoutY="578.0" text="Crew Number" />
-                        <Label fx:id="CrewLabel" layoutX="38.0" layoutY="578.0" />
+                        <Label fx:id="CrewLabel" layoutX="38.0" layoutY="578.0" prefWidth="80.0" />
                         <Label layoutX="78.0" layoutY="578.0" text="Fitness" />
-                        <Label fx:id="FitnessLabel" layoutX="117.0" layoutY="578.0" />
+                        <Label fx:id="FitnessLabel" layoutX="117.0" layoutY="578.0" prefWidth="80.0" />
                         <Label layoutX="158.0" layoutY="578.0" text="Generation" />
-                        <Label fx:id="GenerationLabel" layoutX="203.0" layoutY="578.0" />
+                        <Label fx:id="GenerationLabel" layoutX="203.0" layoutY="578.0" prefWidth="80.0" />
                         <Label text="Timestep" />
-                        <Label fx:id="TimeStepLabel" />
+                        <Label fx:id="TimeStepLabel" prefWidth="80.0" />
                      </children>
                      <padding>
                         <Insets top="5.0" />
@@ -66,10 +66,8 @@
                   </HBox>
                </children>
             </VBox>
+            <Button mnemonicParsing="false" onAction="#handleButtonCalculate" prefHeight="25.0" prefWidth="129.0" text="Calculate" />
             <VBox spacing="5.0">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#handleButtonCalculate" prefWidth="67.0" text="Calculate" />
-               </children>
                <HBox.margin>
                   <Insets />
                </HBox.margin>
@@ -100,6 +98,7 @@
                   <Button mnemonicParsing="false" onAction="#handleButtonSetValues" text="Set Values" />
                </children>
             </VBox>
+            <TextArea fx:id="ConsoleArea" layoutX="14.0" layoutY="338.0" prefHeight="190.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="5.0" />
          </children>
       </AnchorPane>
    </right>
